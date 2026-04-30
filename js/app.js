@@ -93,7 +93,7 @@ const APP = {
                 UI.showLoading(false);
             } catch (e) {
                 UI.showLoading(false);
-                document.getElementById('calendar-content').innerHTML = '<p style="color:red; text-align:center;">Error cargando panorama</p>';
+                document.getElementById('calendar-content').innerHTML = `<p style="color:red; text-align:center;">Error cargando panorama:<br>${e.message}</p>`;
             }
         } else {
             // Mostrar Mapa

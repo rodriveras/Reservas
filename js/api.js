@@ -5,7 +5,7 @@ const API = {
     async getStatusByDate(date) {
         console.log(`📡 Consultando API para fecha: ${date}`);
         try {
-            const response = await fetch(`${CONFIG.API_URL}?date=${date}`);
+            const response = await fetch(`${CONFIG.API_URL}?date=${date}&t=${Date.now()}`);
             if (!response.ok) throw new Error('Error en la red');
             return await response.json();
         } catch (error) {
@@ -17,7 +17,7 @@ const API = {
     async getAllData() {
         console.log(`📡 Consultando todas las reservas...`);
         try {
-            const response = await fetch(`${CONFIG.API_URL}?action=all_data`);
+            const response = await fetch(`${CONFIG.API_URL}?action=all_data&t=${Date.now()}`);
             if (!response.ok) throw new Error('Error en la red');
             return await response.json();
         } catch (error) {

@@ -46,7 +46,6 @@ const UI = {
             <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid var(--success);">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <small style="color: var(--text-dim); text-transform: uppercase; font-size: 10px; font-weight: 800;">Huésped Actual</small>
-                    ${p.pasajeros ? `<small style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:12px; font-size:11px; font-weight:800;"><i class="fas fa-users"></i> ${p.pasajeros} Pasajeros</small>` : ''}
                 </div>
                 
                 <div style="display: flex; align-items: center; margin-top: 5px;">
@@ -62,10 +61,11 @@ const UI = {
                 </div>
                 ` : ''}
                 
-                ${(checkMascota || checkTina) ? `
-                <div style="margin-top: 15px; display:flex; gap:12px;">
-                    ${checkMascota ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><span style="font-size:18px;">🐾</span> Mascota</span>` : ''}
-                    ${checkTina ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><span style="font-size:18px;">♨️</span> Tina</span>` : ''}
+                ${(p.pasajeros || checkMascota || checkTina) ? `
+                <div style="margin-top: 15px; display:flex; flex-wrap:wrap; gap:10px;">
+                    ${p.pasajeros ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><i class="fas fa-users" style="font-size:14px;"></i> ${p.pasajeros} Pasajeros</span>` : ''}
+                    ${checkMascota ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><i class="fas fa-paw" style="font-size:14px;"></i> Mascota</span>` : ''}
+                    ${checkTina ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><i class="fas fa-hot-tub" style="font-size:14px;"></i> Tina</span>` : ''}
                 </div>
                 ` : ''}
             </div>
