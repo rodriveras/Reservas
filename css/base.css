@@ -268,13 +268,34 @@ body {
 }
 
 @media (max-width: 600px) {
-    .bi-dashboard {
-        width: calc(100% - 40px);
+    .main-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
         padding: 15px;
-        gap: 10px;
     }
-    .kpi-card { min-width: 70px; }
-    .kpi-card .value { font-size: 18px; }
+    .controls {
+        justify-content: space-between;
+    }
+    .bi-dashboard {
+        width: calc(100% - 30px);
+        padding: 15px 10px;
+        gap: 8px;
+        bottom: 20px;
+    }
+    .kpi-card { min-width: 30%; }
+    .kpi-card .value { font-size: 16px; }
+    
+    .form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
 }
 
 /* Modulo Clientes */
