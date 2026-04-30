@@ -244,6 +244,29 @@ body {
     color: white;
 }
 
+/* Tooltip Permanente para Nombres de Cabañas (Texto Puro Flotante) */
+.cabin-tooltip {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    color: white !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 11px !important;
+    padding: 0 !important;
+    margin-top: 5px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.9), 0 -1px 2px rgba(0,0,0,0.9), 1px 0 2px rgba(0,0,0,0.9), -1px 0 2px rgba(0,0,0,0.9) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Ocultar el triangulito que Leaflet pone por defecto */
+.leaflet-tooltip-bottom.cabin-tooltip:before {
+    display: none !important;
+}
+
 @media (max-width: 600px) {
     .bi-dashboard {
         width: calc(100% - 40px);

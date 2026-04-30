@@ -15,13 +15,64 @@ const UI = {
     updateDashboard(stats) {
         if (!stats) return;
         
+        // Calcular libres
+        const libres = (stats.total || 0) - (stats.ocupadas || 0);
+        
         // Animación suave de valores
-        this._animateValue("kpi-occ", stats.ocupacion, "%");
-        this._animateValue("kpi-rev", stats.revpar, "$ ", true);
-        this._animateValue("kpi-alert", stats.disponibles, ""); // O cualquier otro stat
+        this._animateValue("kpi-libres", libres, "");
+        this._animateValue("kpi-ocupadas", stats.ocupadas || 0, "");
+        this._animateValue("kpi-ingresos", stats.ingresos || 0, "$ ", true);
     },
 
     openCabinSheet(p) {
+        // Renderizado del bloque de cliente si existe
+        // Intento de enriquecer los datos desde memoria si existen
+        if (typeof CALENDAR !== 'undefined' && CALENDAR.allData) {
+            const res = CALENDAR.allData.reservas.find(r => r.cliente === p.cliente);
+            if (res) {
+                p.pasajeros = p.pasajeros || res.pasajeros;
+                p.mascota = p.mascota || res.mascota;
+                p.tina = p.tina || res.tina;
+                p.celular = p.celular || res.celular;
+                p.rrss = p.rrss || res.rrss;
+                p.email = p.email || res.email;
+            }
+        }
+
+        const checkMascota = p.mascota && typeof p.mascota === 'string' && p.mascota.toLowerCase().includes('s');
+        const checkTina = p.tina && typeof p.tina === 'string' && p.tina.toLowerCase().includes('s');
+
+        const infoCliente = p.cliente ? `
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid var(--success);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <small style="color: var(--text-dim); text-transform: uppercase; font-size: 10px; font-weight: 800;">Huésped Actual</small>
+                    ${p.pasajeros ? `<small style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:12px; font-size:11px; font-weight:800;"><i class="fas fa-users"></i> ${p.pasajeros} Pasajeros</small>` : ''}
+                </div>
+                
+                <div style="display: flex; align-items: center; margin-top: 5px;">
+                    <i class="fas fa-user" style="font-size: 18px; margin-right: 10px; color: var(--success);"></i>
+                    <span style="font-size: 18px; font-weight: 600; color: var(--text-main);">${p.cliente}</span>
+                </div>
+                
+                ${(p.celular || p.email || p.rrss) ? `
+                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); display:grid; gap:8px;">
+                    ${p.celular ? `<div style="font-size:13px; color:var(--text-dim); display:flex; align-items:center; gap:8px;"><i class="fas fa-phone" style="width:14px; text-align:center;"></i> ${p.celular}</div>` : ''}
+                    ${p.email ? `<div style="font-size:13px; color:var(--text-dim); display:flex; align-items:center; gap:8px;"><i class="fas fa-envelope" style="width:14px; text-align:center;"></i> ${p.email}</div>` : ''}
+                    ${p.rrss ? `<div style="font-size:13px; color:var(--text-dim); display:flex; align-items:center; gap:8px;"><i class="fab fa-instagram" style="width:14px; text-align:center;"></i> ${p.rrss}</div>` : ''}
+                </div>
+                ` : ''}
+                
+                ${(checkMascota || checkTina) ? `
+                <div style="margin-top: 15px; display:flex; gap:12px;">
+                    ${checkMascota ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><span style="font-size:18px;">🐾</span> Mascota</span>` : ''}
+                    ${checkTina ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><span style="font-size:18px;">♨️</span> Tina</span>` : ''}
+                </div>
+                ` : ''}
+            </div>
+        ` : '';
+
+        // Estado de pago eliminado por petición del usuario
+
         const content = `
             <div class="cabin-detail">
                 <div class="status-badge" style="background:${CONFIG.COLORS[p.estado]}">
@@ -32,7 +83,9 @@ const UI = {
                     $ ${p.precio.toLocaleString('es-CL')}
                 </div>
                 
-                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.08);">
+                ${infoCliente}
+                
+                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.08);">
                     <small style="color: var(--text-dim); text-transform: uppercase; font-size: 10px; font-weight: 700;">Estado de Mantención</small>
                     <p style="margin-top: 5px; font-size: 14px;">${p.mantenimiento}</p>
                 </div>
@@ -54,7 +107,10 @@ const UI = {
     },
 
     closeCabinSheet() {
-        document.getElementById('cabin-sheet').classList.remove('active');
+        const sheet = document.getElementById('cabin-sheet');
+        const modal = document.getElementById('reserva-modal');
+        if(sheet) sheet.classList.remove('active');
+        if(modal) modal.classList.remove('active');
         document.getElementById('bs-overlay').classList.remove('active');
     },
 

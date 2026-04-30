@@ -1,7 +1,7 @@
 const CONFIG = {
     PROJECT_NAME: "GeoGestión Cabañas",
     // Esta es tu URL de Apps Script conectada al Master Sheet
-    API_URL: "https://script.google.com/macros/s/AKfycbw1QkhBazEYajLNRALQEmEq2iK7O4G9ynOvSVlljeTT9Cw6-lEm_Tu08xmkxT6l5_68SA/exec",
+    API_URL: "https://script.google.com/macros/s/AKfycbxgG-cNBFoTeJDJQF2-9ehd8IHTrrf4scaAandCoEeNxKmCHsiN-oWwEngXcIorX7HPNw/exec",
     
     MAP: {
         CENTER: [-36.82, -71.25],

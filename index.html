@@ -21,8 +21,11 @@
             <span class="tag">PRO</span>
             <h1>GeoGestión <span>Cabañas</span></h1>
         </div>
-        <div class="controls">
+        <div class="controls" style="display: flex; gap: 10px; align-items: center;">
             <input type="date" id="master-date-filter" class="date-input">
+            <button id="btn-toggle-view" class="btn-primary" style="padding: 8px 12px; margin: 0; width: auto;" onclick="APP.toggleView()">
+                <i class="fas fa-calendar-alt"></i> Panorama
+            </button>
             <div id="sync-status" class="status-pill"><i class="fas fa-sync fa-spin"></i> Sincronizando...</div>
         </div>
     </header>
@@ -30,19 +33,28 @@
     <!-- El Mapa -->
     <div id="map"></div>
 
-    <!-- Nivel 5: Business Intelligence Dashboard -->
+    <!-- Vista de Calendario Panorámico -->
+    <div id="calendar-view" style="display: none; position: absolute; top: 70px; bottom: 0; left: 0; right: 0; background: var(--bg-dark); z-index: 500; overflow: auto; padding: 20px;">
+        <div id="calendar-content">
+            <div style="color: var(--text-dim); text-align: center; margin-top: 50px;">
+                <i class="fas fa-circle-notch fa-spin" style="font-size: 24px;"></i><br><br>Cargando panorama del mes...
+            </div>
+        </div>
+    </div>
+
+    <!-- Nivel 5: Business Intelligence Dashboard Operativo -->
     <section class="bi-dashboard">
-        <div class="kpi-card" data-type="ocupacion">
-            <span class="value" id="kpi-occ">0%</span>
-            <span class="label">Ocupación</span>
+        <div class="kpi-card" data-type="libres">
+            <span class="value" id="kpi-libres" style="color: var(--success);">0</span>
+            <span class="label">Libres</span>
         </div>
-        <div class="kpi-card" data-type="revpar">
-            <span class="value" id="kpi-rev">$ 0</span>
-            <span class="label">RevPAR</span>
+        <div class="kpi-card" data-type="ocupadas">
+            <span class="value" id="kpi-ocupadas" style="color: var(--error);">0</span>
+            <span class="label">Ocupadas</span>
         </div>
-        <div class="kpi-card" data-type="alertas">
-            <span class="value" id="kpi-alert">0</span>
-            <span class="label">Mantención</span>
+        <div class="kpi-card" data-type="ingresos">
+            <span class="value" id="kpi-ingresos" style="color: var(--primary);">$ 0</span>
+            <span class="label">Ingresos Hoy</span>
         </div>
     </section>
 
@@ -52,9 +64,70 @@
         <div class="handle"></div>
         <div class="sheet-content" id="sheet-data">
             <!-- Cargado dinámicamente -->
-            <div class="loading-cabin">
-                <i class="fas fa-circle-notch fa-spin"></i> Cargando datos...
+        </div>
+    </div>
+
+    <!-- Modal Nueva Reserva -->
+    <div id="reserva-modal" class="bottom-sheet" style="z-index: 3000; max-height: 90vh; overflow-y: auto;">
+        <div class="handle"></div>
+        <div style="padding: 10px 0;">
+            <h2 style="font-family: 'Outfit'; margin-bottom: 20px;">Nueva Reserva</h2>
+            
+            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05);">
+                <label style="color: var(--primary); font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom:15px; display:block;"><i class="fas fa-bed"></i> Estancia en <span id="new-res-cabana" style="color:white;"></span></label>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="color: var(--text-dim); font-size: 10px; font-weight: 700; text-transform: uppercase;">Entrada</label>
+                        <input type="date" id="new-res-in" class="date-input" style="width: 100%; margin-top: 5px; background:rgba(0,0,0,0.2);">
+                    </div>
+                    <div>
+                        <label style="color: var(--text-dim); font-size: 10px; font-weight: 700; text-transform: uppercase;">Salida</label>
+                        <input type="date" id="new-res-out" class="date-input" style="width: 100%; margin-top: 5px; background:rgba(0,0,0,0.2);">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <label style="color: var(--text-dim); font-size: 10px; font-weight: 700; text-transform: uppercase;">Pasajeros</label>
+                        <input type="number" id="new-res-pax" class="date-input" style="width: 100%; margin-top: 5px; background:rgba(0,0,0,0.2);" min="1" value="2">
+                    </div>
+                    <div style="display: flex; flex-direction: column; justify-content: center; gap: 10px;">
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-main); cursor:pointer; font-weight:600;">
+                            <input type="checkbox" id="new-res-mascota" style="accent-color: var(--primary); width:18px; height:18px;"> 🐾 Trae Mascota
+                        </label>
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-main); cursor:pointer; font-weight:600;">
+                            <input type="checkbox" id="new-res-tina" style="accent-color: var(--primary); width:18px; height:18px;"> ♨️ Tina Caliente
+                        </label>
+                    </div>
+                </div>
             </div>
+
+            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 16px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05);">
+                <label style="color: var(--success); font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom:15px; display:block;"><i class="fas fa-user"></i> Datos del Huésped</label>
+                
+                <input type="text" id="new-res-cliente" class="date-input" style="width: 100%; margin-bottom: 12px; background:rgba(0,0,0,0.2);" placeholder="Nombre completo">
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                    <div style="position:relative;">
+                        <i class="fas fa-phone" style="position:absolute; top:12px; left:12px; color:var(--text-dim); font-size:12px;"></i>
+                        <input type="tel" id="new-res-cel" class="date-input" style="width: 100%; padding-left:35px; background:rgba(0,0,0,0.2);" placeholder="+56 9...">
+                    </div>
+                    <div style="position:relative;">
+                        <i class="fab fa-instagram" style="position:absolute; top:12px; left:12px; color:var(--text-dim); font-size:14px;"></i>
+                        <input type="text" id="new-res-rrss" class="date-input" style="width: 100%; padding-left:35px; background:rgba(0,0,0,0.2);" placeholder="@usuario">
+                    </div>
+                </div>
+
+                <div style="position:relative;">
+                    <i class="fas fa-envelope" style="position:absolute; top:12px; left:12px; color:var(--text-dim); font-size:12px;"></i>
+                    <input type="email" id="new-res-email" class="date-input" style="width: 100%; padding-left:35px; background:rgba(0,0,0,0.2);" placeholder="correo@ejemplo.com">
+                </div>
+            </div>
+
+            <button id="btn-save-res" class="btn-primary" onclick="CALENDAR.saveReservation()">
+                <i class="fas fa-check"></i> Confirmar y Guardar
+            </button>
         </div>
     </div>
 
@@ -66,6 +139,7 @@
     <script src="js/config.js"></script>
     <script src="js/api.js"></script>
     <script src="js/map.js"></script>
+    <script src="js/calendar.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/app.js"></script>
 </body>

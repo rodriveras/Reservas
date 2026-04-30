@@ -54,7 +54,9 @@ const MAP_ENGINE = {
                 // Combinar propiedades espaciales con las de la API
                 spatialFeature.properties = {
                     ...spatialFeature.properties,
-                    ...apiData.properties
+                    ...apiData.properties,
+                    // Forzar GPS exacto de QGIS en modo "Ruta/Navegación"
+                    gps: `https://www.google.com/maps/dir/?api=1&destination=${spatialFeature.geometry.coordinates[1]},${spatialFeature.geometry.coordinates[0]}`
                 };
             }
             return spatialFeature;
@@ -79,15 +81,25 @@ const MAP_ENGINE = {
                 return L.marker(latlng, { icon: cabinIcon });
             },
             onEachFeature: (feature, layer) => {
+                if (feature.properties.nombre) {
+                    // Texto ad hoc: Eliminar "Cabaña" para que se vea más limpio si lo deseas
+                    const adHocText = feature.properties.nombre.replace("Cabaña ", "");
+                    layer.bindTooltip(adHocText, {
+                        permanent: true,
+                        direction: "bottom",
+                        className: "cabin-tooltip",
+                        offset: [0, 5]
+                    });
+                }
                 layer.on('click', () => UI.openCabinSheet(feature.properties));
             }
         });
 
         geojson.addTo(this.layerGroup);
         
-        // Ajustar vista a los puntos si existen
-        if (features.length > 0) {
-            this.instance.fitBounds(geojson.getBounds(), { padding: [50, 50] });
+        // Ajustar vista a los puntos si existen (y hacer zoom suficiente)
+        if (finalFeatures.length > 0) {
+            this.instance.fitBounds(geojson.getBounds(), { padding: [50, 50], maxZoom: 18 });
         }
     }
 };
