@@ -283,8 +283,11 @@ const CALENDAR = {
                 APP.recalcKPIs();
             }
             
-            // Si el mapa estaba en una fecha que ahora está ocupada, se actualizará la próxima vez que se cambie la fecha.
-            
+            // Si el mapa estaba en una fecha que ahora está ocupada, lo actualizamos sincronizando con el servidor
+            if (typeof APP !== 'undefined') {
+                const currentDate = document.getElementById('master-date-filter').value;
+                APP.updateData(currentDate);
+            }
         } catch(e) {
             alert("Error al guardar: " + e.message);
             btn.innerHTML = '<i class="fas fa-check"></i> Confirmar y Guardar';
@@ -307,9 +310,10 @@ const CALENDAR = {
             // Actualizar la grilla
             this.renderGrid();
             
-            // Actualizar KPIs
-            if (typeof APP !== 'undefined' && APP.recalcKPIs) {
-                APP.recalcKPIs();
+            // Actualizar mapa y KPIs recargando datos frescos para sincronizar los colores
+            if (typeof APP !== 'undefined') {
+                const currentDate = document.getElementById('master-date-filter').value;
+                APP.updateData(currentDate);
             }
             
             // Si el mapa depende de los datos recargados, esto podría requerir un reload completo, 

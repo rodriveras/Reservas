@@ -47,8 +47,17 @@ const MAP_ENGINE = {
         const finalFeatures = json_Cabaas_3.features.map(spatialFeature => {
             const spatialName = spatialFeature.properties.nombre; // Ej: "Lenga"
             
-            // Buscar en la API la cabaña que coincida en el nombre (Ej: "Cabaña Lenga" incluye "Lenga")
-            const apiData = apiFeatures.find(f => f.properties.nombre.includes(spatialName));
+            // Buscar en la API la cabaña que coincida en el nombre
+            const apiData = apiFeatures.find(f => {
+                const normalize = (str) => str ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() : "";
+                const apiName = normalize(f.properties.nombre);
+                const qgisName = normalize(spatialName);
+                
+                // Excepción específica: Maitén <-> Hualle
+                if ((apiName.includes("maiten") && qgisName.includes("hualle")) || (apiName.includes("hualle") && qgisName.includes("maiten"))) return true;
+                
+                return apiName.includes(qgisName) || qgisName.includes(apiName);
+            });
             
             if (apiData) {
                 // Combinar propiedades espaciales con las de la API
@@ -70,8 +79,8 @@ const MAP_ENGINE = {
                 const cabinIcon = L.divIcon({
                     className: 'cabin-marker-container',
                     html: `
-                        <div class="cabin-pin" style="background-color: ${color}">
-                            <i class="fas fa-house-chimney"></i>
+                        <div class="cabin-pin" style="background-color: ${color}; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                            <i class="fas fa-house-chimney" style="color: white;"></i>
                         </div>
                     `,
                     iconSize: [36, 36],
