@@ -75,8 +75,13 @@ const UI = {
 
         const content = `
             <div class="cabin-detail">
-                <div class="status-badge" style="background:${CONFIG.COLORS[p.estado]}">
-                    ${p.estado_txt || p.estado}
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                    <button onclick="UI.closeCabinSheet()" style="background:transparent; border:none; color:var(--text-main); font-size: 20px; cursor: pointer; padding: 0;">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="status-badge" style="background:${CONFIG.COLORS[p.estado]}; margin: 0;">
+                        ${p.estado_txt || p.estado}
+                    </div>
                 </div>
                 <h2>${p.nombre}</h2>
                 <div style="font-size: 20px; font-weight: 800; color: var(--success); margin-bottom: 20px; display:flex; align-items:center; gap: 10px;">

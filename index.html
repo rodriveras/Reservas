@@ -71,7 +71,12 @@
     <div id="reserva-modal" class="bottom-sheet" style="z-index: 3000; max-height: 90vh; overflow-y: auto;">
         <div class="handle"></div>
         <div style="padding: 10px 0;">
-            <h2 style="font-family: 'Outfit'; margin-bottom: 20px;">Nueva Reserva</h2>
+            <div style="display: flex; align-items: center; margin-bottom: 20px; gap: 15px;">
+                <button onclick="document.getElementById('reserva-modal').classList.remove('active'); document.getElementById('bs-overlay').classList.remove('active');" style="background:transparent; border:none; color:var(--text-main); font-size: 20px; cursor: pointer; padding: 0;">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2 style="font-family: 'Outfit'; margin: 0;">Nueva Reserva</h2>
+            </div>
             
             <div class="outline-card">
                 <label style="color: white; font-size: 14px; font-weight: 800; text-transform: uppercase; margin-bottom:15px; display:block;"><i class="fas fa-bed"></i> Estancia en <span id="new-res-cabana" style="color:#d97736;"></span></label>
