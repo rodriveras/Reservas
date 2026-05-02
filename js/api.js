@@ -38,5 +38,19 @@ const API = {
             console.error("❌ Fallo al guardar reserva:", error);
             throw error;
         }
+    },
+
+    async deleteReservation(id_reserva) {
+        console.log(`📡 Eliminando reserva ${id_reserva}...`);
+        try {
+            const response = await fetch(CONFIG.API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'delete_reserva', id_reserva })
+            });
+            return await response.json();
+        } catch (error) {
+            console.error("❌ Fallo al eliminar reserva:", error);
+            throw error;
+        }
     }
 };

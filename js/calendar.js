@@ -170,7 +170,8 @@ const CALENDAR = {
             tina: res.tina,
             celular: res.celular,
             rrss: res.rrss,
-            email: res.email
+            email: res.email,
+            id_reserva: res.id || res.d_reserva || res.id_reserva
         };
         
         UI.openCabinSheet(p);
@@ -281,6 +282,33 @@ const CALENDAR = {
             alert("Error al guardar: " + e.message);
             btn.innerHTML = '<i class="fas fa-check"></i> Confirmar y Guardar';
             btn.disabled = false;
+        }
+    },
+
+    async deleteReservation(id_reserva) {
+        if (!confirm("¿Estás seguro de que deseas eliminar esta reserva? Esta acción no se puede deshacer.")) return;
+        
+        try {
+            await API.deleteReservation(id_reserva);
+            
+            // Eliminar de los datos locales
+            this.allData.reservas = this.allData.reservas.filter(r => (r.id || r.d_reserva || r.id_reserva) !== id_reserva);
+            
+            // Cerrar el panel
+            UI.closeCabinSheet();
+            
+            // Actualizar la grilla
+            this.renderGrid();
+            
+            // Actualizar KPIs
+            if (typeof APP !== 'undefined' && APP.recalcKPIs) {
+                APP.recalcKPIs();
+            }
+            
+            // Si el mapa depende de los datos recargados, esto podría requerir un reload completo, 
+            // pero si APP.recalcKPIs o el render local es suficiente, esto lo maneja.
+        } catch(e) {
+            alert("Error al eliminar: " + e.message);
         }
     }
 };

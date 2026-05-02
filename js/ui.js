@@ -94,10 +94,16 @@ const UI = {
                     <a href="${p.wa}" target="_blank" class="btn-primary" style="background: #25d366;">
                         <i class="fab fa-whatsapp"></i> WhatsApp
                     </a>
-                    <a href="${p.gps}" target="_blank" class="btn-primary" style="background: var(--surface-light);">
+                    <a href="${p.gps}" target="_blank" class="btn-primary" style="background: #25d366;">
                         <i class="fas fa-location-arrow"></i> Navegar
                     </a>
                 </div>
+                
+                ${p.id_reserva ? `
+                <button onclick="CALENDAR.deleteReservation('${p.id_reserva}')" class="btn-primary" style="margin-top: 15px; background: transparent; border: 1px solid var(--error); color: var(--error);">
+                    <i class="fas fa-trash-alt"></i> Eliminar Reserva
+                </button>
+                ` : ''}
             </div>
         `;
         
