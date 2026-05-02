@@ -56,5 +56,23 @@ const API = {
             console.error("❌ Fallo al eliminar reserva:", error);
             throw error;
         }
+    },
+
+    async updateBasePrice(id_cabana, new_price) {
+        console.log(`📡 Actualizando precio base de cabaña ${id_cabana}...`);
+        try {
+            const response = await fetch(CONFIG.API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'update_base_price', id_cabana: id_cabana, new_price: new_price })
+            });
+            const result = await response.json();
+            if (result.status === "error") {
+                throw new Error(result.message || "Error desconocido en Apps Script");
+            }
+            return result;
+        } catch (error) {
+            console.error("❌ Fallo al actualizar precio:", error);
+            throw error;
+        }
     }
 };

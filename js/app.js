@@ -58,6 +58,11 @@ const APP = {
             if (targetDate.getDay() === 5 || targetDate.getDay() === 6) precio *= 1.20;
             
             if (res) {
+                // Usar precio personalizado si existe
+                if (res.precios_dinamicos) {
+                    precio = parseFloat(res.precios_dinamicos);
+                }
+                
                 // Si justo hoy es el día de salida, no se cuenta como ocupada para la noche
                 const isSalida = (targetDateStr === res.fecha_salida);
                 if (!isSalida) {

@@ -92,14 +92,19 @@
                         <label style="color: #999; font-size: 11px; font-weight: 700; text-transform: uppercase;">Pasajeros</label>
                         <input type="number" id="new-res-pax" class="outline-input" style="margin-top: 5px; font-size:18px;" min="1" value="2">
                     </div>
-                    <div style="display: flex; flex-direction: column; justify-content: center; gap: 10px;">
-                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-main); cursor:pointer; font-weight:600;">
-                            <input type="checkbox" id="new-res-mascota" style="accent-color: var(--primary); width:18px; height:18px;"> <i class="fas fa-paw" style="color:var(--text-dim); width:16px;"></i> Trae Mascota
-                        </label>
-                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-main); cursor:pointer; font-weight:600;">
-                            <input type="checkbox" id="new-res-tina" style="accent-color: var(--primary); width:18px; height:18px;"> <i class="fas fa-hot-tub" style="color:var(--text-dim); width:16px;"></i> Tina Caliente
-                        </label>
+                    <div>
+                        <label style="color: #999; font-size: 11px; font-weight: 700; text-transform: uppercase;">Precio a Cobrar ($)</label>
+                        <input type="number" id="new-res-precio" class="outline-input" style="margin-top: 5px; font-size:18px;" min="0" placeholder="Ej: 50000">
                     </div>
+                </div>
+                
+                <div style="display: flex; gap: 15px; margin-top: 15px; margin-bottom: 20px;">
+                    <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-main); cursor:pointer; font-weight:600;">
+                        <input type="checkbox" id="new-res-mascota" style="accent-color: var(--primary); width:18px; height:18px;"> <i class="fas fa-paw" style="color:var(--text-dim); width:16px;"></i> Trae Mascota
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-main); cursor:pointer; font-weight:600;">
+                        <input type="checkbox" id="new-res-tina" style="accent-color: var(--primary); width:18px; height:18px;"> <i class="fas fa-hot-tub" style="color:var(--text-dim); width:16px;"></i> Tina Caliente
+                    </label>
                 </div>
             </div>
 

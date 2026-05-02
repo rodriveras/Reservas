@@ -156,11 +156,14 @@ const CALENDAR = {
             }
         }
 
+        const precioMostrar = res.precios_dinamicos ? res.precios_dinamicos : cabin.precio_base;
+
         const p = {
+            id_cabana: cabin.id,
             nombre: cabin.nombre,
             estado: 'Rojo',
             estado_txt: `Reservado hasta ${res.fecha_salida}`,
-            precio: cabin.precio_base,
+            precio: precioMostrar,
             mantenimiento: cabin.mantenimiento || "OK",
             wa: `https://wa.me/${cabin.telefono}?text=Gestion+${cabin.nombre}`,
             gps: `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`,
@@ -199,6 +202,7 @@ const CALENDAR = {
         document.getElementById('new-res-cel').value = '';
         document.getElementById('new-res-rrss').value = '';
         document.getElementById('new-res-email').value = '';
+        document.getElementById('new-res-precio').value = cabin.precio_base;
         
         document.getElementById('reserva-modal').classList.add('active');
         document.getElementById('bs-overlay').classList.add('active');
@@ -216,6 +220,7 @@ const CALENDAR = {
         const celular = document.getElementById('new-res-cel').value;
         const rrss = document.getElementById('new-res-rrss').value;
         const email = document.getElementById('new-res-email').value;
+        const precios_dinamicos = document.getElementById('new-res-precio').value || "";
         
         if (!checkin || !checkout || !cliente) {
             alert('Por favor completa la fecha de salida y el nombre del huésped.');
@@ -242,7 +247,8 @@ const CALENDAR = {
                 tina: tina,
                 celular: celular,
                 rrss: rrss,
-                email: email
+                email: email,
+                precios_dinamicos: precios_dinamicos
             });
             
             // 🌟 Inyectar la reserva localmente en la memoria para verla de inmediato
@@ -258,7 +264,8 @@ const CALENDAR = {
                     tina: tina,
                     celular: celular,
                     rrss: rrss,
-                    email: email
+                    email: email,
+                    precios_dinamicos: precios_dinamicos
                 });
             }
             

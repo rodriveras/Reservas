@@ -79,8 +79,11 @@ const UI = {
                     ${p.estado_txt || p.estado}
                 </div>
                 <h2>${p.nombre}</h2>
-                <div style="font-size: 20px; font-weight: 800; color: var(--success); margin-bottom: 20px;">
-                    $ ${p.precio.toLocaleString('es-CL')}
+                <div style="font-size: 20px; font-weight: 800; color: var(--success); margin-bottom: 20px; display:flex; align-items:center; gap: 10px;">
+                    $ ${parseFloat(p.precio).toLocaleString('es-CL')}
+                    <button onclick="UI.editBasePrice('${p.id_cabana}', ${p.precio})" style="background:transparent; border:none; color:var(--text-dim); cursor:pointer;" title="Cambiar precio base de esta cabaña">
+                        <i class="fas fa-edit"></i>
+                    </button>
                 </div>
                 
                 ${infoCliente}
@@ -147,5 +150,32 @@ const UI = {
             if (progress < 1) window.requestAnimationFrame(step);
         };
         window.requestAnimationFrame(step);
+    },
+
+    async editBasePrice(id_cabana, currentPrice) {
+        if (!id_cabana) return;
+        const newPrice = prompt("Ingresa el nuevo precio base para esta cabaña:", currentPrice);
+        if (!newPrice || isNaN(newPrice) || newPrice === currentPrice.toString()) return;
+
+        try {
+            this.showLoading(true);
+            await API.updateBasePrice(id_cabana, newPrice);
+            
+            // Actualizar localmente
+            if (typeof CALENDAR !== 'undefined' && CALENDAR.allData) {
+                const cabana = CALENDAR.allData.cabanas.find(c => c.id == id_cabana);
+                if (cabana) cabana.precio_base = newPrice;
+            }
+            
+            this.closeCabinSheet();
+            if (typeof APP !== 'undefined' && APP.recalcKPIs) {
+                APP.recalcKPIs();
+            }
+            this.showLoading(false);
+            alert("Precio actualizado exitosamente.");
+        } catch (error) {
+            this.showLoading(false);
+            alert("Error al actualizar precio: " + error.message);
+        }
     }
 };
