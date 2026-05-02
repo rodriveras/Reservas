@@ -73,24 +73,24 @@
         <div style="padding: 10px 0;">
             <h2 style="font-family: 'Outfit'; margin-bottom: 20px;">Nueva Reserva</h2>
             
-            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05);">
-                <label style="color: var(--primary); font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom:15px; display:block;"><i class="fas fa-bed"></i> Estancia en <span id="new-res-cabana" style="color:white;"></span></label>
+            <div class="outline-card">
+                <label style="color: white; font-size: 14px; font-weight: 800; text-transform: uppercase; margin-bottom:15px; display:block;"><i class="fas fa-bed"></i> Estancia en <span id="new-res-cabana" style="color:#d97736;"></span></label>
                 
                 <div class="form-grid" style="margin-bottom: 15px;">
                     <div>
-                        <label style="color: var(--text-dim); font-size: 10px; font-weight: 700; text-transform: uppercase;">Entrada</label>
-                        <input type="date" id="new-res-in" class="date-input" style="width: 100%; margin-top: 5px; background:rgba(0,0,0,0.2);">
+                        <label style="color: #999; font-size: 11px; font-weight: 700; text-transform: uppercase;">Entrada</label>
+                        <input type="date" id="new-res-in" class="outline-input" style="margin-top: 5px;">
                     </div>
                     <div>
-                        <label style="color: var(--text-dim); font-size: 10px; font-weight: 700; text-transform: uppercase;">Salida</label>
-                        <input type="date" id="new-res-out" class="date-input" style="width: 100%; margin-top: 5px; background:rgba(0,0,0,0.2);">
+                        <label style="color: #999; font-size: 11px; font-weight: 700; text-transform: uppercase;">Salida</label>
+                        <input type="date" id="new-res-out" class="outline-input" style="margin-top: 5px;">
                     </div>
                 </div>
 
                 <div class="form-grid">
                     <div>
-                        <label style="color: var(--text-dim); font-size: 10px; font-weight: 700; text-transform: uppercase;">Pasajeros</label>
-                        <input type="number" id="new-res-pax" class="date-input" style="width: 100%; margin-top: 5px; background:rgba(0,0,0,0.2);" min="1" value="2">
+                        <label style="color: #999; font-size: 11px; font-weight: 700; text-transform: uppercase;">Pasajeros</label>
+                        <input type="number" id="new-res-pax" class="outline-input" style="margin-top: 5px; font-size:18px;" min="1" value="2">
                     </div>
                     <div style="display: flex; flex-direction: column; justify-content: center; gap: 10px;">
                         <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-main); cursor:pointer; font-weight:600;">
@@ -103,30 +103,30 @@
                 </div>
             </div>
 
-            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 16px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05);">
-                <label style="color: var(--success); font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom:15px; display:block;"><i class="fas fa-user"></i> Datos del Huésped</label>
+            <div class="outline-card">
+                <label style="color: white; font-size: 14px; font-weight: 800; text-transform: uppercase; margin-bottom:15px; display:block;"><i class="fas fa-user"></i> Datos del Huésped</label>
                 
-                <input type="text" id="new-res-cliente" class="date-input" style="width: 100%; margin-bottom: 12px; background:rgba(0,0,0,0.2);" placeholder="Nombre completo">
+                <input type="text" id="new-res-cliente" class="outline-input" style="margin-bottom: 20px; font-size:18px; border-bottom:1px solid #444; padding-bottom:10px; border-radius:0;" placeholder="Nombre completo">
                 
                 <div class="form-grid" style="margin-bottom: 12px;">
                     <div style="position:relative;">
-                        <i class="fas fa-phone" style="position:absolute; top:12px; left:12px; color:var(--text-dim); font-size:12px;"></i>
-                        <input type="tel" id="new-res-cel" class="date-input" style="width: 100%; padding-left:35px; background:rgba(0,0,0,0.2);" placeholder="+56 9...">
+                        <i class="fas fa-phone" style="position:absolute; top:2px; left:0; color:#999; font-size:14px;"></i>
+                        <input type="tel" id="new-res-cel" class="outline-input" style="padding-left:25px;" placeholder="+56 9...">
                     </div>
                     <div style="position:relative;">
-                        <i class="fab fa-instagram" style="position:absolute; top:12px; left:12px; color:var(--text-dim); font-size:14px;"></i>
-                        <input type="text" id="new-res-rrss" class="date-input" style="width: 100%; padding-left:35px; background:rgba(0,0,0,0.2);" placeholder="@usuario">
+                        <i class="fab fa-instagram" style="position:absolute; top:2px; left:0; color:#999; font-size:16px;"></i>
+                        <input type="text" id="new-res-rrss" class="outline-input" style="padding-left:25px;" placeholder="@usuario">
                     </div>
                 </div>
 
                 <div style="position:relative;">
-                    <i class="fas fa-envelope" style="position:absolute; top:12px; left:12px; color:var(--text-dim); font-size:12px;"></i>
-                    <input type="email" id="new-res-email" class="date-input" style="width: 100%; padding-left:35px; background:rgba(0,0,0,0.2);" placeholder="correo@ejemplo.com">
+                    <i class="fas fa-envelope" style="position:absolute; top:2px; left:0; color:#999; font-size:14px;"></i>
+                    <input type="email" id="new-res-email" class="outline-input" style="padding-left:25px;" placeholder="correo@ejemplo.com">
                 </div>
             </div>
 
             <button id="btn-save-res" class="btn-primary" onclick="CALENDAR.saveReservation()">
-                <i class="fas fa-check"></i> Confirmar y Guardar
+                Listo
             </button>
         </div>
     </div>

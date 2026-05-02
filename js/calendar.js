@@ -23,23 +23,25 @@ const CALENDAR = {
         ).join('');
         
         return `
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; margin-top:20px;">
-                <select id="cal-cabin-select" style="padding:12px; border-radius:16px; background:var(--surface); color:white; border:1px solid rgba(255,255,255,0.1); font-size:18px; font-weight:800; font-family:'Outfit';" onchange="CALENDAR.changeCabin(this.value)">
-                    ${cabinOptions}
-                </select>
-                <div style="display:flex; gap:10px;">
-                    <button class="btn-primary" style="padding:12px; width:45px; border-radius:16px;" onclick="CALENDAR.changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
-                    <button class="btn-primary" style="padding:12px; width:45px; border-radius:16px;" onclick="CALENDAR.changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+            <div style="background: white; min-height: 100%; border-radius: 24px; padding: 15px; padding-bottom: 100px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+                    <select id="cal-cabin-select" style="padding:10px 0; border:none; background:transparent; color:#222; font-size:18px; font-weight:800; font-family:'Outfit'; outline:none;" onchange="CALENDAR.changeCabin(this.value)">
+                        ${cabinOptions}
+                    </select>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn-primary" style="padding:10px; width:40px; border-radius:50%; background:#f0f0f0; color:#222; border:none;" onclick="CALENDAR.changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                        <button class="btn-primary" style="padding:10px; width:40px; border-radius:50%; background:#f0f0f0; color:#222; border:none;" onclick="CALENDAR.changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
                 </div>
-            </div>
-            
-            <h2 id="cal-month-title" style="font-size:32px; margin-bottom:25px; font-family:'Outfit'; text-transform:capitalize; color:var(--text-main);"></h2>
-            
-            <div style="display:grid; grid-template-columns:repeat(7,1fr); text-align:center; font-weight:800; font-size:12px; margin-bottom:15px; color:var(--text-dim);">
-                <div>D</div><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div>
-            </div>
-            
-            <div id="cal-grid" style="display:grid; grid-template-columns:repeat(7,1fr); gap:6px;">
+                
+                <h2 id="cal-month-title" style="font-size:32px; margin-bottom:25px; font-family:'Outfit'; text-transform:lowercase; color:#222;"></h2>
+                
+                <div style="display:grid; grid-template-columns:repeat(7,1fr); text-align:center; font-weight:800; font-size:11px; margin-bottom:15px; color:#717171;">
+                    <div>D</div><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div>
+                </div>
+                
+                <div id="cal-grid" style="display:grid; grid-template-columns:repeat(7,1fr); gap:8px;">
+                </div>
             </div>
         `;
     },
@@ -89,7 +91,7 @@ const CALENDAR = {
             let isStart = false;
             let isEnd = false;
             let clientName = '';
-            let cellStyle = `background: var(--bg-dark); color: var(--text-main); border: 1px solid rgba(255,255,255,0.08);`;
+            let cellStyle = `background: white; color: #222; border: 1px solid #ebebeb; border-radius: 12px;`;
             
             if (activeRes) {
                 isStart = dateStr === activeRes.fecha_entrada;
@@ -97,34 +99,32 @@ const CALENDAR = {
                 clientName = activeRes.cliente ? activeRes.cliente.split(' ')[0] : 'Reservado';
                 
                 let rad = '0';
-                if (isStart && isEnd) rad = '24px';
-                else if (isStart) rad = '24px 0 0 24px';
-                else if (isEnd) rad = '0 24px 24px 0';
+                if (isStart && isEnd) rad = '12px';
+                else if (isStart) rad = '12px 0 0 12px';
+                else if (isEnd) rad = '0 12px 12px 0';
                 
                 // Si cae domingo o sabado rompe el "pill"
-                if (currentDate.getDay() === 0 && !isStart) rad = '24px 0 0 24px';
-                if (currentDate.getDay() === 6 && !isEnd) rad = '0 24px 24px 0';
+                if (currentDate.getDay() === 0 && !isStart) rad = '12px 0 0 12px';
+                if (currentDate.getDay() === 6 && !isEnd) rad = '0 12px 12px 0';
 
-                // DISEÑO DESTACADO PARA RESERVAS
-                cellStyle = `background: var(--primary); color: white; border: none; border-radius: ${rad}; box-shadow: 0 4px 12px rgba(217, 119, 54, 0.4);`;
+                // DISEÑO DESTACADO PARA RESERVAS (Oscuro puro tipo Airbnb)
+                cellStyle = `background: #222222; color: white; border: 1px solid #222222; border-radius: ${rad};`;
                 
                 if(isStart || isEnd) {
                     cellStyle += ` z-index: 2; position:relative;`;
                 }
-            } else {
-                cellStyle += ` border-radius: 14px;`;
             }
             
             let isMiddle = activeRes && !isStart && !isEnd;
             let onClick = activeRes ? `onclick="CALENDAR.openDetails('${activeRes.fecha_entrada}')"` : `onclick="CALENDAR.startDraft('${dateStr}')"`;
             
             gridHtml += `
-                <div style="aspect-ratio: 1/1.2; display:flex; flex-direction:column; justify-content:space-between; align-items:center; padding:10px 4px; cursor:pointer; transition:0.2s; ${cellStyle}" ${onClick} onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                    <span style="${isMiddle ? 'text-decoration:line-through; opacity:0.5;' : 'font-weight:900;'} font-size:15px; color:white;">${isEnd && activeRes ? '<i class="fas fa-sign-out-alt"></i>' : d}</span>
+                <div style="aspect-ratio: 1/1.6; display:flex; flex-direction:column; justify-content:space-between; align-items:center; padding:12px 4px; cursor:pointer; transition:0.2s; ${cellStyle}" ${onClick} onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <span style="${isMiddle ? 'opacity:0.5;' : 'font-weight:900;'} font-size:15px;">${isEnd && activeRes ? '<i class="fas fa-sign-out-alt"></i>' : d}</span>
                     
-                    ${activeRes && isStart ? `<div style="font-size:11px; font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%; text-align:center; color:white; text-shadow: 0 1px 2px rgba(0,0,0,0.5);"><i class="fas fa-user"></i> ${clientName}</div>` : ''}
+                    ${activeRes && isStart ? `<div style="font-size:11px; font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%; text-align:center; color:white;"><i class="fas fa-user"></i> ${clientName}</div>` : ''}
                     
-                    ${!activeRes ? `<span style="font-size:11px; font-weight:600; color:var(--text-dim);">$${Math.round(dayPrice/1000)}k</span>` : ''}
+                    ${!activeRes ? `<span style="font-size:11px; font-weight:700; color:#717171;">$${Math.round(dayPrice/1000)}k</span>` : ''}
                 </div>
             `;
         }
