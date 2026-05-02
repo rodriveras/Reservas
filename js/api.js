@@ -47,7 +47,11 @@ const API = {
                 method: 'POST',
                 body: JSON.stringify({ action: 'delete_reserva', id_reserva })
             });
-            return await response.json();
+            const result = await response.json();
+            if (result.status === "error") {
+                throw new Error(result.message || "Error desconocido en Apps Script");
+            }
+            return result;
         } catch (error) {
             console.error("❌ Fallo al eliminar reserva:", error);
             throw error;
