@@ -23,7 +23,7 @@ const CALENDAR = {
         ).join('');
         
         return `
-            <div style="background: white; min-height: 100%; border-radius: 24px; padding: 15px; padding-bottom: 100px;">
+            <div style="background: white; min-height: 100%; max-width: 600px; margin: 0 auto; border-radius: 24px; padding: 15px; padding-bottom: 100px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
                     <select id="cal-cabin-select" style="padding:10px 0; border:none; background:transparent; color:#222; font-size:18px; font-weight:800; font-family:'Outfit'; outline:none;" onchange="CALENDAR.changeCabin(this.value)">
                         ${cabinOptions}
@@ -40,7 +40,7 @@ const CALENDAR = {
                     <div>D</div><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div>
                 </div>
                 
-                <div id="cal-grid" style="display:grid; grid-template-columns:repeat(7,1fr); gap:8px;">
+                <div id="cal-grid" style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px;">
                 </div>
             </div>
         `;
@@ -119,12 +119,12 @@ const CALENDAR = {
             let onClick = activeRes ? `onclick="CALENDAR.openDetails('${activeRes.fecha_entrada}')"` : `onclick="CALENDAR.startDraft('${dateStr}')"`;
             
             gridHtml += `
-                <div style="aspect-ratio: 1/1.6; display:flex; flex-direction:column; justify-content:space-between; align-items:center; padding:12px 4px; cursor:pointer; transition:0.2s; ${cellStyle}" ${onClick} onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                    <span style="${isMiddle ? 'opacity:0.5;' : 'font-weight:900;'} font-size:15px;">${isEnd && activeRes ? '<i class="fas fa-sign-out-alt"></i>' : d}</span>
+                <div style="aspect-ratio: 1/1.2; display:flex; flex-direction:column; justify-content:space-between; align-items:center; padding:6px 2px; cursor:pointer; transition:0.2s; ${cellStyle}" ${onClick} onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <span style="${isMiddle ? 'opacity:0.5;' : 'font-weight:900;'} font-size:13px;">${isEnd && activeRes ? '<i class="fas fa-sign-out-alt"></i>' : d}</span>
                     
-                    ${activeRes && isStart ? `<div style="font-size:11px; font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%; text-align:center; color:white;"><i class="fas fa-user"></i> ${clientName}</div>` : ''}
+                    ${activeRes && isStart ? `<div style="font-size:9px; font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%; text-align:center; color:white;"><i class="fas fa-user"></i> ${clientName}</div>` : ''}
                     
-                    ${!activeRes ? `<span style="font-size:11px; font-weight:700; color:#717171;">$${Math.round(dayPrice/1000)}k</span>` : ''}
+                    ${!activeRes ? `<span style="font-size:9px; font-weight:700; color:#717171;">$${Math.round(dayPrice/1000)}k</span>` : ''}
                 </div>
             `;
         }
