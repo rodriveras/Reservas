@@ -91,8 +91,13 @@ const MAP_ENGINE = {
             },
             onEachFeature: (feature, layer) => {
                 if (feature.properties.nombre) {
-                    // Texto ad hoc: Eliminar "Cabaña" para que se vea más limpio si lo deseas
-                    const adHocText = feature.properties.nombre.replace("Cabaña ", "");
+                    // Limpiar nombre y aplicar corrección Maitén -> Hualle
+                    let adHocText = feature.properties.nombre.replace("Cabaña ", "");
+                    if (adHocText.toLowerCase().includes("maitén") || adHocText.toLowerCase().includes("maiten")) {
+                        adHocText = "Hualle";
+                        feature.properties.nombre = "Cabaña Hualle"; // Forzar internamente también
+                    }
+                    
                     layer.bindTooltip(adHocText, {
                         permanent: true,
                         direction: "bottom",

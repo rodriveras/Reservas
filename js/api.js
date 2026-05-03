@@ -26,14 +26,34 @@ const API = {
         }
     },
 
-    async createReservation(payload) {
-        console.log(`📡 Enviando nueva reserva...`, payload);
+    async createReservation(data) {
+        console.log("📡 Enviando nueva reserva al servidor...");
         try {
             const response = await fetch(CONFIG.API_URL, {
                 method: 'POST',
-                body: JSON.stringify({ action: 'create_reserva', ...payload })
+                body: JSON.stringify({ 
+                    action: 'create_reserva',
+                    id_cabana: data.id_cabana,
+                    fecha_entrada: data.fecha_entrada,
+                    fecha_salida: data.fecha_salida,
+                    cliente: data.cliente,
+                    pasajeros: data.pasajeros,
+                    mascota: data.mascota,
+                    tina: data.tina,
+                    valor_tina: data.valor_tina,
+                    abono: data.abono,
+                    comentarios: data.comentarios,
+                    celular: data.celular,
+                    rrss: data.rrss,
+                    email: data.email,
+                    precios_dinamicos: data.precios_dinamicos
+                })
             });
-            return await response.json();
+            const result = await response.json();
+            if (result.status === "error") {
+                throw new Error(result.message || "Error desconocido en Apps Script");
+            }
+            return result;
         } catch (error) {
             console.error("❌ Fallo al guardar reserva:", error);
             throw error;

@@ -102,14 +102,43 @@
                         <input type="number" id="new-res-precio" class="outline-input" style="margin-top: 5px; font-size:18px;" min="0" placeholder="Ej: 50000">
                     </div>
                 </div>
+            </div>
+
+            <!-- Acordeón Oscuro Estilo Airbnb -->
+            <div class="dark-accordion-container">
+                <div style="color: #888; font-size: 13px; font-weight: 700; margin-bottom: 15px; padding-left: 5px;">Configuración personalizada</div>
                 
-                <div style="display: flex; gap: 15px; margin-top: 15px; margin-bottom: 20px;">
-                    <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-main); cursor:pointer; font-weight:600;">
-                        <input type="checkbox" id="new-res-mascota" style="accent-color: var(--primary); width:18px; height:18px;"> <i class="fas fa-paw" style="color:var(--text-dim); width:16px;"></i> Trae Mascota
+                <!-- Botón 1: Tina y Mascota -->
+                <button class="dark-accordion-btn" onclick="CALENDAR.toggleAccordion(this)">
+                    Extras y Tina Caliente <i class="fas fa-plus"></i>
+                </button>
+                <div class="dark-accordion-content">
+                    <label style="display:flex; align-items:center; gap:8px; font-size:14px; cursor:pointer; margin-bottom: 15px;">
+                        <input type="checkbox" id="new-res-mascota" style="accent-color: var(--primary); width:18px; height:18px;"> <i class="fas fa-paw" style="color:#aaa; width:20px;"></i> Trae Mascota
                     </label>
-                    <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-main); cursor:pointer; font-weight:600;">
-                        <input type="checkbox" id="new-res-tina" style="accent-color: var(--primary); width:18px; height:18px;"> <i class="fas fa-hot-tub" style="color:var(--text-dim); width:16px;"></i> Tina Caliente
+                    <label style="display:flex; align-items:center; gap:8px; font-size:14px; cursor:pointer; margin-bottom: 10px;">
+                        <input type="checkbox" id="new-res-tina" style="accent-color: var(--primary); width:18px; height:18px;" onchange="document.getElementById('tina-price-container').style.display = this.checked ? 'block' : 'none'"> <i class="fas fa-hot-tub" style="color:#aaa; width:20px;"></i> Tina Caliente
                     </label>
+                    <div id="tina-price-container" style="display:none; padding-left: 26px;">
+                        <input type="number" id="new-res-tina-precio" class="dark-input" placeholder="Valor a cobrar por la tina ($)">
+                    </div>
+                </div>
+
+                <!-- Botón 2: Pagos y Abonos -->
+                <button class="dark-accordion-btn" onclick="CALENDAR.toggleAccordion(this)">
+                    Pagos y Abonos <i class="fas fa-plus"></i>
+                </button>
+                <div class="dark-accordion-content">
+                    <label style="font-size: 13px; color: #aaa;">Abono pagado por adelantado ($)</label>
+                    <input type="number" id="new-res-abono" class="dark-input" placeholder="Ej: 25000">
+                </div>
+
+                <!-- Botón 3: Comentarios -->
+                <button class="dark-accordion-btn" style="margin-bottom:0;" onclick="CALENDAR.toggleAccordion(this)">
+                    Comentarios de Reserva <i class="fas fa-plus"></i>
+                </button>
+                <div class="dark-accordion-content" style="margin-bottom:0;">
+                    <textarea id="new-res-comentarios" class="dark-input" style="min-height: 80px; resize: none;" placeholder="Detalles adicionales, cuna, hora de llegada, etc..."></textarea>
                 </div>
             </div>
 

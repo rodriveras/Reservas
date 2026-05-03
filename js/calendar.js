@@ -199,10 +199,17 @@ const CALENDAR = {
         document.getElementById('new-res-pax').value = '2';
         document.getElementById('new-res-mascota').checked = false;
         document.getElementById('new-res-tina').checked = false;
+        document.getElementById('tina-price-container').style.display = 'none';
+        document.getElementById('new-res-tina-precio').value = '';
+        document.getElementById('new-res-abono').value = '';
+        document.getElementById('new-res-comentarios').value = '';
         document.getElementById('new-res-cel').value = '';
         document.getElementById('new-res-rrss').value = '';
         document.getElementById('new-res-email').value = '';
         document.getElementById('new-res-precio').value = cabin.precio_base;
+        
+        // Cerrar todos los acordeones por defecto
+        document.querySelectorAll('.dark-accordion-content').forEach(el => el.classList.remove('open'));
         
         document.getElementById('reserva-modal').classList.add('active');
         document.getElementById('bs-overlay').classList.add('active');
@@ -217,6 +224,9 @@ const CALENDAR = {
         const pasajeros = document.getElementById('new-res-pax').value;
         const mascota = document.getElementById('new-res-mascota').checked ? "Sí" : "No";
         const tina = document.getElementById('new-res-tina').checked ? "Sí" : "No";
+        const valor_tina = document.getElementById('new-res-tina-precio').value || "";
+        const abono = document.getElementById('new-res-abono').value || "";
+        const comentarios = document.getElementById('new-res-comentarios').value || "";
         const celular = document.getElementById('new-res-cel').value;
         const rrss = document.getElementById('new-res-rrss').value;
         const email = document.getElementById('new-res-email').value;
@@ -245,6 +255,9 @@ const CALENDAR = {
                 pasajeros: pasajeros,
                 mascota: mascota,
                 tina: tina,
+                valor_tina: valor_tina,
+                abono: abono,
+                comentarios: comentarios,
                 celular: celular,
                 rrss: rrss,
                 email: email,
@@ -262,6 +275,9 @@ const CALENDAR = {
                     pasajeros: pasajeros,
                     mascota: mascota,
                     tina: tina,
+                    valor_tina: valor_tina,
+                    abono: abono,
+                    comentarios: comentarios,
                     celular: celular,
                     rrss: rrss,
                     email: email,
@@ -320,6 +336,20 @@ const CALENDAR = {
             // pero si APP.recalcKPIs o el render local es suficiente, esto lo maneja.
         } catch(e) {
             alert("Error al eliminar: " + e.message);
+        }
+    },
+
+    toggleAccordion(btn) {
+        const content = btn.nextElementSibling;
+        const icon = btn.querySelector('i');
+        if (content.classList.contains('open')) {
+            content.classList.remove('open');
+            icon.classList.remove('fa-minus');
+            icon.classList.add('fa-plus');
+        } else {
+            content.classList.add('open');
+            icon.classList.remove('fa-plus');
+            icon.classList.add('fa-minus');
         }
     }
 };

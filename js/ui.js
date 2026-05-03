@@ -65,7 +65,21 @@ const UI = {
                 <div style="margin-top: 15px; display:flex; flex-wrap:wrap; gap:10px;">
                     ${p.pasajeros ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><i class="fas fa-users" style="font-size:14px;"></i> ${p.pasajeros} Pasajeros</span>` : ''}
                     ${checkMascota ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><i class="fas fa-paw" style="font-size:14px;"></i> Mascota</span>` : ''}
-                    ${checkTina ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><i class="fas fa-hot-tub" style="font-size:14px;"></i> Tina</span>` : ''}
+                    ${checkTina ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><i class="fas fa-hot-tub" style="font-size:14px;"></i> Tina ${p.valor_tina ? `($${parseFloat(p.valor_tina).toLocaleString('es-CL')})` : ''}</span>` : ''}
+                </div>
+                ` : ''}
+
+                ${p.abono ? `
+                <div style="margin-top: 15px; background: rgba(34, 197, 94, 0.1); padding: 12px; border-radius: 10px; border: 1px solid rgba(34, 197, 94, 0.2); display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size: 12px; color: var(--success); font-weight: 700;">ABONO REGISTRADO</span>
+                    <span style="font-size: 15px; font-weight: 800; color: var(--success);">$ ${parseFloat(p.abono).toLocaleString('es-CL')}</span>
+                </div>
+                ` : ''}
+
+                ${p.comentarios ? `
+                <div style="margin-top: 15px; padding: 12px; border-radius: 10px; background: #222;">
+                    <div style="font-size: 10px; text-transform: uppercase; color: var(--text-dim); font-weight: 800; margin-bottom: 5px;"><i class="fas fa-comment-alt"></i> Comentarios</div>
+                    <div style="font-size: 13px; color: #ddd; line-height: 1.4;">${p.comentarios}</div>
                 </div>
                 ` : ''}
             </div>
