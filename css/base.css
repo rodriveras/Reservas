@@ -34,6 +34,11 @@ body {
     z-index: 1;
 }
 
+/* Evitar que los controles del mapa se escondan tras el header */
+.leaflet-top {
+    top: 85px !important;
+}
+
 /* Header UI */
 .main-header {
     position: absolute;
