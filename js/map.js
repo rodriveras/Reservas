@@ -105,7 +105,7 @@ const MAP_ENGINE = {
                         offset: [0, 5]
                     });
                 }
-                layer.on('click', () => UI.openCabinSheet(feature.properties));
+                layer.on('click', () => UI.openCabinSheet(feature));
             }
         });
 

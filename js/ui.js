@@ -119,15 +119,6 @@ const UI = {
                     </div>
                     <i class="fas fa-broom" style="color:#666; font-size:20px;"></i>
                 </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">
-                    <a href="${p.wa}" target="_blank" class="btn-primary" style="background: #2a2a2c; border: 1px solid #444; color: white;">
-                        <i class="fab fa-whatsapp" style="color: #25d366; font-size: 18px;"></i> WhatsApp
-                    </a>
-                    <a href="${p.gps}" target="_blank" class="btn-primary" style="background: #2a2a2c; border: 1px solid #444; color: white;">
-                        <i class="fas fa-location-arrow" style="color: var(--primary); font-size: 16px;"></i> Navegar
-                    </a>
-                </div>
                 
                 ${p.id_reserva ? `
                 <button onclick="CALENDAR.deleteReservation('${p.id_reserva}')" class="btn-primary" style="background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: var(--error); margin-top: 5px;">

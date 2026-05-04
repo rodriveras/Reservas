@@ -26,7 +26,16 @@ const MAP_ENGINE = {
         
         const finalFeatures = json_Cabaas_3.features.map(spatialFeature => {
             const spatialName = spatialFeature.properties.nombre;
-            const apiData = apiFeatures.find(f => f.properties.nombre.includes(spatialName));
+            const apiData = apiFeatures.find(f => {
+                const normalize = (str) => str ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() : "";
+                const apiName = normalize(f.properties.nombre);
+                const qgisName = normalize(spatialName);
+                
+                // Excepción específica: Maitén <-> Hualle
+                if ((apiName.includes("maiten") && qgisName.includes("hualle")) || (apiName.includes("hualle") && qgisName.includes("maiten"))) return true;
+                
+                return apiName.includes(qgisName) || qgisName.includes(apiName);
+            });
             if (apiData) {
                 spatialFeature.properties = { ...spatialFeature.properties, ...apiData.properties };
             }
@@ -59,7 +68,7 @@ const MAP_ENGINE = {
             onEachFeature: (feature, layer) => {
                 // Solo permitir click si está disponible
                 if (feature.properties.estado === 'Verde') {
-                    layer.on('click', () => UI.openCabinSheet(feature.properties));
+                    layer.on('click', () => UI.openCabinSheet(feature));
                 }
             }
         });

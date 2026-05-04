@@ -110,6 +110,23 @@ const APP = {
             // Refrescar mapa si es necesario
             MAP_ENGINE.instance.invalidateSize();
         }
+    },
+
+    copyClientLink() {
+        const currentUrl = window.location.href;
+        let clientUrl = currentUrl;
+        if (clientUrl.includes('index.html')) {
+            clientUrl = clientUrl.replace('index.html', 'portal_clientes.html');
+        } else {
+            clientUrl = clientUrl.replace(/\/$/, '') + '/portal_clientes.html';
+        }
+        
+        navigator.clipboard.writeText(clientUrl).then(() => {
+            alert('¡Enlace para clientes copiado al portapapeles!\n\nYa puedes pegarlo en WhatsApp.');
+        }).catch(err => {
+            console.error('Error al copiar: ', err);
+            prompt('Copia manualmente este enlace para tus clientes:', clientUrl);
+        });
     }
 };
 

@@ -33,39 +33,60 @@ const UI = {
         };
     },
 
-    openCabinSheet(p) {
+    openCabinSheet(feature) {
+        const p = feature.properties;
         const checkin = document.getElementById('client-checkin').value;
         const checkout = document.getElementById('client-checkout').value;
 
+        // Determinar precio base y sumar 20% si es fin de semana
+        let precioFinal = parseFloat(p.precio || p.precio_base || p["precio base"] || 0);
+        if (isNaN(precioFinal)) precioFinal = 0;
+        
+        if (checkin) {
+            const inDate = new Date(checkin + "T00:00:00");
+            if (inDate.getDay() === 5 || inDate.getDay() === 6) {
+                precioFinal *= 1.20;
+            }
+        }
+
+        // Obtener la posición exacta desde el mapa (GeoJSON usa [Longitud, Latitud])
+        let gpsUrl = 'https://maps.google.com';
+        if (feature.geometry && feature.geometry.coordinates) {
+            const lng = feature.geometry.coordinates[0];
+            const lat = feature.geometry.coordinates[1];
+            gpsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+        }
+
         const content = `
             <div class="cabin-detail">
-                <div class="status-badge" style="background:var(--success)">
-                    ¡Disponible!
-                </div>
-                <h2>${p.nombre}</h2>
-                <div style="font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 5px;">
-                    $ ${p.precio.toLocaleString('es-CL')} <span style="font-size: 14px; color: var(--text-dim); font-weight: 400;">/ noche</span>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                    <button onclick="UI.closeCabinSheet()" style="background:transparent; border:none; color:white; font-size: 20px; cursor: pointer; padding: 0;">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="status-badge" style="background:rgba(22, 163, 74, 0.15); color:var(--success); border: 1px solid rgba(22, 163, 74, 0.3); margin: 0;">
+                        ¡Disponible!
+                    </div>
                 </div>
                 
-                <p style="color: var(--text-dim); font-size: 14px; margin-bottom: 20px;">
-                    Cabaña totalmente equipada en medio del bosque nativo.
-                </p>
+                <h2 style="font-family: 'Outfit'; font-size: 28px; font-weight: 700; color: white; margin-bottom: 5px;">${p.nombre}</h2>
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom: 25px;">
+                    <span style="font-size: 20px; font-weight: 700; color: var(--success);">$ ${precioFinal.toLocaleString('es-CL')}</span>
+                    <span style="font-size: 14px; color: #888;">/ noche</span>
+                </div>
+                
+                <div style="background: #1c1c1e; padding: 20px; border-radius: 20px; border: 1px solid #333; margin-bottom: 25px;">
+                    <p style="color: #ccc; font-size: 14px; line-height: 1.5; margin: 0;">
+                        Cabaña totalmente equipada en medio del bosque nativo. El lugar ideal para conectarse con la naturaleza y descansar.
+                    </p>
+                </div>
 
-                <div style="background: rgba(0,0,0,0.25); padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05);">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-dim); font-weight: 700;">LLEGADA</label>
-                            <input type="date" id="sheet-checkin" class="date-input" style="width: 100%; background: var(--bg-dark); margin-top: 5px;" value="${checkin}" onclick="this.showPicker && this.showPicker()">
-                        </div>
-                        <div>
-                            <label style="font-size: 11px; color: var(--text-dim); font-weight: 700;">SALIDA</label>
-                            <input type="date" id="sheet-checkout" class="date-input" style="width: 100%; background: var(--bg-dark); margin-top: 5px;" value="${checkout}" onclick="this.showPicker && this.showPicker()">
-                        </div>
-                    </div>
-                    
-                    <button class="btn-primary" onclick="UI.sendToWhatsApp('${p.wa}')">
-                        <i class="fab fa-whatsapp"></i> Confirmar y Reservar
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">
+                    <button onclick="UI.sendToWhatsApp('${p.nombre}')" class="btn-primary" style="background: #2a2a2c; border: 1px solid #444; color: white;">
+                        <i class="fab fa-whatsapp" style="color: #25d366; font-size: 18px;"></i> Reservar
                     </button>
+                    <a href="${gpsUrl}" target="_blank" class="btn-primary" style="background: #2a2a2c; border: 1px solid #444; color: white;">
+                        <i class="fas fa-location-arrow" style="color: var(--primary); font-size: 16px;"></i> Cómo llegar
+                    </a>
                 </div>
             </div>
         `;
@@ -75,20 +96,17 @@ const UI = {
         document.getElementById('bs-overlay').classList.add('active');
     },
 
-    sendToWhatsApp(waBaseUrl) {
-        const checkin = document.getElementById('sheet-checkin').value;
-        const checkout = document.getElementById('sheet-checkout').value;
+    sendToWhatsApp(cabinName) {
+        const checkin = document.getElementById('client-checkin').value;
+        const checkout = document.getElementById('client-checkout').value;
         
         if(!checkout || checkout <= checkin) {
             alert("La fecha de salida debe ser posterior a la fecha de llegada.");
             return;
         }
 
-        // Reemplazar el número de Google Sheets por tu número de prueba
-        const urlConTuNumero = waBaseUrl.replace(/wa\.me\/\d+/, 'wa.me/56974300363');
-
-        const datesText = `\n\n📅 *Fechas Solicitadas:*\nEntrada: ${checkin}\nSalida: ${checkout}`;
-        const finalUrl = urlConTuNumero + encodeURIComponent(datesText);
+        const datesText = `\n\nHola, me interesa reservar la *${cabinName || 'Cabaña'}*.\n📅 *Fechas:*\nEntrada: ${checkin}\nSalida: ${checkout}`;
+        const finalUrl = 'https://wa.me/56983008056?text=' + encodeURIComponent(datesText);
         window.open(finalUrl, '_blank');
     },
 
