@@ -1,6 +1,6 @@
 const CONFIG = {
     PROJECT_NAME: "GeoGestión Cabañas",
-    API_URL: "https://script.google.com/macros/s/AKfycbzpIHhIZVyUoLqgVlO0SbRUTAKNidDVCdpe-kbkZUP5GY-0UaLYYxXyWcHpGThQqD00Rg/exec",
+    API_URL: "https://script.google.com/macros/s/AKfycby5mrDO45ll3yMoKkVqS51_YZ0MBHsduWxNKhi7RGLD5WR9hzMyFEQvj2tWNrK4X3WQoQ/exec",
     
     MAP: {
         CENTER: [-36.82, -71.25],

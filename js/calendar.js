@@ -83,8 +83,8 @@ const CALENDAR = {
             if (currentDate.getDay() === 5 || currentDate.getDay() === 6) dayPrice *= 1.20;
             
             const activeRes = cabinReservations.find(r => {
-                const checkin = new Date(r.fecha_entrada + "T00:00:00");
-                const checkout = new Date(r.fecha_salida + "T00:00:00");
+                const checkin = new Date(r.fecha_entrada.split('T')[0] + "T00:00:00");
+                const checkout = new Date(r.fecha_salida.split('T')[0] + "T00:00:00");
                 return currentDate >= checkin && currentDate <= checkout;
             });
             
@@ -94,8 +94,8 @@ const CALENDAR = {
             let cellStyle = `background: white; color: #222; border: 1px solid #ebebeb; border-radius: 12px;`;
             
             if (activeRes) {
-                isStart = dateStr === activeRes.fecha_entrada;
-                isEnd = dateStr === activeRes.fecha_salida;
+                isStart = dateStr === activeRes.fecha_entrada.split('T')[0];
+                isEnd = dateStr === activeRes.fecha_salida.split('T')[0];
                 clientName = activeRes.cliente ? activeRes.cliente.split(' ')[0] : 'Reservado';
                 
                 let rad = '0';
@@ -116,7 +116,7 @@ const CALENDAR = {
             }
             
             let isMiddle = activeRes && !isStart && !isEnd;
-            let onClick = activeRes ? `onclick="CALENDAR.openDetails('${activeRes.fecha_entrada}')"` : `onclick="CALENDAR.startDraft('${dateStr}')"`;
+            let onClick = activeRes ? `onclick="CALENDAR.openDetails('${activeRes.fecha_entrada.split('T')[0]}')"` : `onclick="CALENDAR.startDraft('${dateStr}')"`;
             
             gridHtml += `
                 <div style="aspect-ratio: 1/1.2; display:flex; flex-direction:column; justify-content:space-between; align-items:center; padding:6px 2px; cursor:pointer; transition:0.2s; ${cellStyle}" ${onClick} onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
@@ -141,7 +141,7 @@ const CALENDAR = {
             APP.recalcKPIs();
         }
 
-        const res = this.allData.reservas.find(r => r.id_cabana == this.currentCabinId && r.fecha_entrada === fechaEntrada);
+        const res = this.allData.reservas.find(r => r.id_cabana == this.currentCabinId && r.fecha_entrada.split('T')[0] === fechaEntrada);
         const cabin = this.allData.cabanas.find(c => c.id == this.currentCabinId);
         if (!res || !cabin) return;
         
@@ -162,7 +162,7 @@ const CALENDAR = {
             id_cabana: cabin.id,
             nombre: cabin.nombre,
             estado: 'Rojo',
-            estado_txt: `Reservado hasta ${res.fecha_salida}`,
+            estado_txt: `Reservado hasta ${res.fecha_salida.split('T')[0]}`,
             precio: precioMostrar,
             mantenimiento: cabin.mantenimiento || "OK",
             wa: `https://wa.me/${cabin.telefono}?text=Gestion+${cabin.nombre}`,
@@ -171,6 +171,9 @@ const CALENDAR = {
             pasajeros: res.pasajeros,
             mascota: res.mascota,
             tina: res.tina,
+            valor_tina: res.valor_tina || res.Valor_tina,
+            abono: res.abono,
+            comentarios: res.comentarios,
             celular: res.celular,
             rrss: res.rrss,
             email: res.email,

@@ -50,8 +50,8 @@ const APP = {
         CALENDAR.allData.cabanas.forEach(c => {
             const res = CALENDAR.allData.reservas.find(r => 
                 r.id_cabana == c.id && 
-                targetDate >= new Date(r.fecha_entrada + "T00:00:00") && 
-                targetDate <= new Date(r.fecha_salida + "T00:00:00")
+                targetDate >= new Date(r.fecha_entrada.split('T')[0] + "T00:00:00") && 
+                targetDate <= new Date(r.fecha_salida.split('T')[0] + "T00:00:00")
             );
             
             let precio = c.precio_base || 0;
@@ -64,7 +64,7 @@ const APP = {
                 }
                 
                 // Si justo hoy es el día de salida, no se cuenta como ocupada para la noche
-                const isSalida = (targetDateStr === res.fecha_salida);
+                const isSalida = (targetDateStr === res.fecha_salida.split('T')[0]);
                 if (!isSalida) {
                     ocupadas++;
                     ingresos += precio;
