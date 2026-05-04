@@ -36,7 +36,7 @@ body {
 
 /* Evitar que los controles del mapa se escondan tras el header */
 .leaflet-top {
-    top: 85px !important;
+    top: 130px !important;
 }
 
 /* Header UI */

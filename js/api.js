@@ -94,5 +94,23 @@ const API = {
             console.error("❌ Fallo al actualizar precio:", error);
             throw error;
         }
+    },
+
+    async updateAbono(id_reserva, new_abono) {
+        console.log(`📡 Actualizando abono de reserva ${id_reserva}...`);
+        try {
+            const response = await fetch(CONFIG.API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'update_abono', id_reserva: id_reserva, new_abono: new_abono })
+            });
+            const result = await response.json();
+            if (result.status === "error") {
+                throw new Error(result.message || "Error desconocido en Apps Script");
+            }
+            return result;
+        } catch (error) {
+            console.error("❌ Fallo al actualizar abono:", error);
+            throw error;
+        }
     }
 };

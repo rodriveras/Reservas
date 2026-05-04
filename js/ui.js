@@ -72,12 +72,15 @@ const UI = {
                 </div>
                 ` : ''}
 
-                ${p.abono ? `
                 <div style="margin-top: 15px; background: rgba(34, 197, 94, 0.1); padding: 12px; border-radius: 10px; border: 1px solid rgba(34, 197, 94, 0.2); display:flex; justify-content:space-between; align-items:center;">
                     <span style="font-size: 12px; color: var(--success); font-weight: 700;">ABONO REGISTRADO</span>
-                    <span style="font-size: 15px; font-weight: 800; color: var(--success);">$ ${parseFloat(p.abono).toLocaleString('es-CL')}</span>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size: 15px; font-weight: 800; color: var(--success);">${p.abono ? '$ ' + parseFloat(p.abono).toLocaleString('es-CL') : 'No registrado'}</span>
+                        <button onclick="UI.editAbono('${p.id_reserva}', '${p.abono || 0}')" style="background:transparent; border:none; color:var(--success); cursor:pointer; padding:5px;" title="Modificar Abono">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
                 </div>
-                ` : ''}
 
                 ${p.comentarios ? `
                 <div style="margin-top: 15px; padding: 12px; border-radius: 10px; background: #222;">
@@ -198,6 +201,33 @@ const UI = {
         } catch (error) {
             this.showLoading(false);
             alert("Error al actualizar precio: " + error.message);
+        }
+    },
+
+    async editAbono(id_reserva, currentAbono) {
+        if (!id_reserva || id_reserva === 'undefined') return;
+        const newAbono = prompt("Ingresa el nuevo monto del abono para esta reserva (números solamente):", currentAbono === '0' ? '' : currentAbono);
+        if (newAbono === null || isNaN(newAbono) || newAbono === currentAbono.toString()) return;
+
+        try {
+            this.showLoading(true);
+            await API.updateAbono(id_reserva, newAbono);
+            
+            // Actualizar localmente
+            if (typeof CALENDAR !== 'undefined' && CALENDAR.allData) {
+                const res = CALENDAR.allData.reservas.find(r => (r.id || r.d_reserva || r.id_reserva) === id_reserva);
+                if (res) res.abono = newAbono;
+            }
+            
+            this.closeCabinSheet();
+            if (typeof CALENDAR !== 'undefined') {
+                CALENDAR.renderGrid();
+            }
+            this.showLoading(false);
+            alert("Abono actualizado exitosamente.");
+        } catch (error) {
+            this.showLoading(false);
+            alert("Error al actualizar abono: " + error.message);
         }
     }
 };
