@@ -43,92 +43,94 @@ const UI = {
         }
 
         const checkMascota = p.mascota && typeof p.mascota === 'string' && p.mascota.toLowerCase().includes('s');
-        const checkTina = p.tina && typeof p.tina === 'string' && p.tina.toLowerCase().includes('s');
-
+        const checkTina = p.tina && typeof p.tina === 'string' && p.tina.toLowerCase().includes('s');        
+        
         const infoCliente = p.cliente ? `
-            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid var(--success);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <small style="color: var(--text-dim); text-transform: uppercase; font-size: 10px; font-weight: 800;">Huésped Actual</small>
-                </div>
+            <div style="background: #1c1c1e; padding: 20px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px;">
+                <div style="font-size: 11px; color: #888; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 15px;">Huésped Actual</div>
                 
-                <div style="display: flex; align-items: center; margin-top: 5px;">
-                    <i class="fas fa-user" style="font-size: 18px; margin-right: 10px; color: var(--success);"></i>
-                    <span style="font-size: 18px; font-weight: 600; color: var(--text-main);">${p.cliente}</span>
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(22, 163, 74, 0.2); color: var(--success); display:flex; align-items:center; justify-content:center; margin-right: 12px;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span style="font-size: 18px; font-weight: 700; color: white;">${p.cliente}</span>
                 </div>
                 
                 ${(p.celular || p.email || p.rrss) ? `
-                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); display:grid; gap:8px;">
-                    ${p.celular ? `<div style="font-size:13px; color:var(--text-dim); display:flex; align-items:center; gap:8px;"><i class="fas fa-phone" style="width:14px; text-align:center;"></i> ${p.celular}</div>` : ''}
-                    ${p.email ? `<div style="font-size:13px; color:var(--text-dim); display:flex; align-items:center; gap:8px;"><i class="fas fa-envelope" style="width:14px; text-align:center;"></i> ${p.email}</div>` : ''}
-                    ${p.rrss ? `<div style="font-size:13px; color:var(--text-dim); display:flex; align-items:center; gap:8px;"><i class="fab fa-instagram" style="width:14px; text-align:center;"></i> ${p.rrss}</div>` : ''}
+                <div style="display:grid; gap:10px; margin-bottom: 15px;">
+                    ${p.celular ? `<div style="font-size:14px; color:#ccc; display:flex; align-items:center; gap:10px;"><i class="fas fa-phone" style="color:#888; width:16px;"></i> ${p.celular}</div>` : ''}
+                    ${p.email ? `<div style="font-size:14px; color:#ccc; display:flex; align-items:center; gap:10px;"><i class="fas fa-envelope" style="color:#888; width:16px;"></i> ${p.email}</div>` : ''}
+                    ${p.rrss ? `<div style="font-size:14px; color:#ccc; display:flex; align-items:center; gap:10px;"><i class="fab fa-instagram" style="color:#888; width:16px;"></i> ${p.rrss}</div>` : ''}
                 </div>
                 ` : ''}
                 
                 ${(p.pasajeros || checkMascota || checkTina) ? `
-                <div style="margin-top: 15px; display:flex; flex-wrap:wrap; gap:10px;">
-                    ${p.pasajeros ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><i class="fas fa-users" style="font-size:14px;"></i> ${p.pasajeros} Pasajeros</span>` : ''}
-                    ${checkMascota ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><i class="fas fa-paw" style="font-size:14px;"></i> Mascota</span>` : ''}
-                    ${checkTina ? `<span style="background:rgba(217,119,54,0.15); color:var(--primary); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:800; display:flex; align-items:center; gap:6px;"><i class="fas fa-hot-tub" style="font-size:14px;"></i> Tina ${p.valor_tina ? `($${parseFloat(p.valor_tina).toLocaleString('es-CL')})` : ''}</span>` : ''}
-                </div>
-                ` : ''}
-
-                <div style="margin-top: 15px; background: rgba(34, 197, 94, 0.1); padding: 12px; border-radius: 10px; border: 1px solid rgba(34, 197, 94, 0.2); display:flex; justify-content:space-between; align-items:center;">
-                    <span style="font-size: 12px; color: var(--success); font-weight: 700;">ABONO REGISTRADO</span>
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <span style="font-size: 15px; font-weight: 800; color: var(--success);">${p.abono ? '$ ' + parseFloat(p.abono).toLocaleString('es-CL') : 'No registrado'}</span>
-                        <button onclick="UI.editAbono('${p.id_reserva}', '${p.abono || 0}')" style="background:transparent; border:none; color:var(--success); cursor:pointer; padding:5px;" title="Modificar Abono">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                </div>
-
-                ${p.comentarios ? `
-                <div style="margin-top: 15px; padding: 12px; border-radius: 10px; background: #222;">
-                    <div style="font-size: 10px; text-transform: uppercase; color: var(--text-dim); font-weight: 800; margin-bottom: 5px;"><i class="fas fa-comment-alt"></i> Comentarios</div>
-                    <div style="font-size: 13px; color: #ddd; line-height: 1.4;">${p.comentarios}</div>
+                <div style="display:flex; flex-wrap:wrap; gap:8px; border-top: 1px solid #333; padding-top: 15px;">
+                    ${p.pasajeros ? `<span style="background:#2a2a2c; border: 1px solid #444; color:#ddd; padding:6px 12px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px;"><i class="fas fa-users" style="color:#888;"></i> ${p.pasajeros} Pax</span>` : ''}
+                    ${checkMascota ? `<span style="background:#2a2a2c; border: 1px solid #444; color:#ddd; padding:6px 12px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px;"><i class="fas fa-paw" style="color:#888;"></i> Mascota</span>` : ''}
+                    ${checkTina ? `<span style="background:#2a2a2c; border: 1px solid #444; color:#ddd; padding:6px 12px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px;"><i class="fas fa-hot-tub" style="color:var(--primary);"></i> Tina ${p.valor_tina ? `($${parseFloat(p.valor_tina).toLocaleString('es-CL')})` : ''}</span>` : ''}
                 </div>
                 ` : ''}
             </div>
-        ` : '';
 
-        // Estado de pago eliminado por petición del usuario
+            <div style="background: #1c1c1e; padding: 20px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-size: 11px; color: #888; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 5px;">Abono Registrado</div>
+                    <span style="font-size: 18px; font-weight: 700; color: ${p.abono ? 'var(--success)' : '#666'};">${p.abono ? '$ ' + parseFloat(p.abono).toLocaleString('es-CL') : 'No registrado'}</span>
+                </div>
+                <button onclick="UI.editAbono('${p.id_reserva}', '${p.abono || 0}')" style="background:#2a2a2c; border:1px solid #444; color:white; border-radius:12px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:0.2s;" title="Modificar Abono">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </div>
+
+            ${p.comentarios ? `
+            <div style="background: #1c1c1e; padding: 20px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px;">
+                <div style="font-size: 11px; color: #888; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 10px;"><i class="fas fa-comment-alt" style="margin-right:5px;"></i> Comentarios</div>
+                <div style="font-size: 14px; color: #ccc; line-height: 1.5;">${p.comentarios}</div>
+            </div>
+            ` : ''}
+        ` : '';
 
         const content = `
             <div class="cabin-detail">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-                    <button onclick="UI.closeCabinSheet()" style="background:transparent; border:none; color:var(--text-main); font-size: 20px; cursor: pointer; padding: 0;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                    <button onclick="UI.closeCabinSheet()" style="background:transparent; border:none; color:white; font-size: 20px; cursor: pointer; padding: 0;">
                         <i class="fas fa-arrow-left"></i>
                     </button>
-                    <div class="status-badge" style="background:${CONFIG.COLORS[p.estado]}; margin: 0;">
+                    <div class="status-badge" style="background:${p.estado === 'Verde' ? 'rgba(22, 163, 74, 0.15)' : 'rgba(220, 38, 38, 0.15)'}; color:${p.estado === 'Verde' ? 'var(--success)' : 'var(--error)'}; border: 1px solid ${p.estado === 'Verde' ? 'rgba(22, 163, 74, 0.3)' : 'rgba(220, 38, 38, 0.3)'}; margin: 0;">
                         ${p.estado_txt || p.estado}
                     </div>
                 </div>
-                <h2>${p.nombre}</h2>
-                <div style="font-size: 20px; font-weight: 800; color: var(--success); margin-bottom: 20px; display:flex; align-items:center; gap: 10px;">
-                    $ ${parseFloat(p.precio).toLocaleString('es-CL')}
-                    <button onclick="UI.editBasePrice('${p.id_cabana}', ${p.precio})" style="background:transparent; border:none; color:var(--text-dim); cursor:pointer;" title="Cambiar precio base de esta cabaña">
+                
+                <h2 style="font-family: 'Outfit'; font-size: 28px; font-weight: 700; color: white; margin-bottom: 5px;">${p.nombre}</h2>
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom: 25px;">
+                    <span style="font-size: 20px; font-weight: 700; color: var(--success);">$ ${parseFloat(p.precio).toLocaleString('es-CL')}</span>
+                    <button onclick="UI.editBasePrice('${p.id_cabana}', ${p.precio})" style="background:transparent; border:none; color:#888; cursor:pointer;" title="Cambiar precio base">
                         <i class="fas fa-edit"></i>
                     </button>
                 </div>
                 
                 ${infoCliente}
                 
-                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.08);">
-                    <small style="color: var(--text-dim); text-transform: uppercase; font-size: 10px; font-weight: 700;">Estado de Mantención</small>
-                    <p style="margin-top: 5px; font-size: 14px;">${p.mantenimiento}</p>
+                <div style="background: #1c1c1e; padding: 20px; border-radius: 20px; border: 1px solid #333; margin-bottom: 25px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <div style="font-size: 11px; color: #888; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 5px;">Mantención</div>
+                        <span style="font-size: 15px; color: white; font-weight:600;">${p.mantenimiento}</span>
+                    </div>
+                    <i class="fas fa-broom" style="color:#666; font-size:20px;"></i>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <a href="${p.wa}" target="_blank" class="btn-primary" style="background: #25d366;">
-                        <i class="fab fa-whatsapp"></i> WhatsApp
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">
+                    <a href="${p.wa}" target="_blank" class="btn-primary" style="background: #2a2a2c; border: 1px solid #444; color: white;">
+                        <i class="fab fa-whatsapp" style="color: #25d366; font-size: 18px;"></i> WhatsApp
                     </a>
-                    <a href="${p.gps}" target="_blank" class="btn-primary" style="background: #25d366;">
-                        <i class="fas fa-location-arrow"></i> Navegar
+                    <a href="${p.gps}" target="_blank" class="btn-primary" style="background: #2a2a2c; border: 1px solid #444; color: white;">
+                        <i class="fas fa-location-arrow" style="color: var(--primary); font-size: 16px;"></i> Navegar
                     </a>
                 </div>
                 
                 ${p.id_reserva ? `
-                <button onclick="CALENDAR.deleteReservation('${p.id_reserva}')" class="btn-primary" style="margin-top: 15px; background: transparent; border: 1px solid var(--error); color: var(--error);">
+                <button onclick="CALENDAR.deleteReservation('${p.id_reserva}')" class="btn-primary" style="background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: var(--error); margin-top: 5px;">
                     <i class="fas fa-trash-alt"></i> Eliminar Reserva
                 </button>
                 ` : ''}
