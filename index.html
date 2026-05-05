@@ -21,15 +21,15 @@
             <span class="tag">PRO</span>
             <h1>GeoGestión <span>Cabañas</span></h1>
         </div>
-        <div class="controls" style="display: flex; gap: 10px; align-items: center;">
+        <div class="controls desktop-controls">
             <input type="date" id="master-date-filter" class="date-input">
-            <button id="btn-toggle-view" class="btn-primary" style="padding: 8px 12px; margin: 0; width: auto;" onclick="APP.toggleView()">
+            <button id="btn-toggle-view" class="btn-primary" style="padding: 8px 12px; margin: 0; font-size: 14px;" onclick="APP.toggleView()">
                 <i class="fas fa-calendar-alt"></i> Panorama
             </button>
-            <button class="btn-primary" style="padding: 8px 12px; margin: 0; width: auto; background: var(--success);" onclick="APP.copyClientLink()">
-                <i class="fas fa-link"></i> Link a Clientes
+            <button class="btn-primary" style="padding: 8px 12px; margin: 0; font-size: 14px; background: var(--success);" onclick="APP.copyClientLink()">
+                <i class="fas fa-link"></i> Copiar Link
             </button>
-            <div id="sync-status" class="status-pill"><i class="fas fa-sync fa-spin"></i> Sincronizando...</div>
+            <div id="sync-status" class="status-pill" style="margin-top: 0;"><i class="fas fa-sync fa-spin"></i> Buscando...</div>
         </div>
     </header>
 
@@ -75,10 +75,10 @@
         <div class="handle"></div>
         <div style="padding: 10px 0;">
             <div style="display: flex; align-items: center; margin-bottom: 20px; gap: 15px;">
-                <button onclick="document.getElementById('reserva-modal').classList.remove('active'); document.getElementById('bs-overlay').classList.remove('active');" style="background:transparent; border:none; color:var(--text-main); font-size: 20px; cursor: pointer; padding: 0;">
+                <button onclick="document.getElementById('reserva-modal').classList.remove('active'); document.getElementById('bs-overlay').classList.remove('active');" style="background:transparent; border:none; color:white; font-size: 20px; cursor: pointer; padding: 0;">
                     <i class="fas fa-arrow-left"></i>
                 </button>
-                <h2 style="font-family: 'Outfit'; margin: 0;">Nueva Reserva</h2>
+                <h2 style="font-family: 'Outfit'; color: white; margin: 0;">Nueva Reserva</h2>
             </div>
             
             <div class="outline-card">

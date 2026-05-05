@@ -63,6 +63,12 @@ body {
     color: var(--text-main);
 }
 
+.desktop-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
 .brand h1 span { color: var(--primary); }
 
 .tag {
@@ -369,6 +375,42 @@ body {
     }
     .controls {
         justify-content: space-between;
+    }
+    .desktop-controls {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+            "date sync"
+            "btn1 btn2";
+        width: 100%;
+        gap: 10px;
+        align-items: center;
+    }
+    
+    .desktop-controls .date-input {
+        grid-area: date;
+        width: 100%;
+    }
+    
+    .desktop-controls .status-pill {
+        grid-area: sync;
+        text-align: right;
+    }
+    
+    .desktop-controls #btn-toggle-view {
+        grid-area: btn1;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .desktop-controls .btn-primary:not(#btn-toggle-view) {
+        grid-area: btn2;
+        width: 100%;
+        justify-content: center;
+    }
+
+    #calendar-view {
+        top: 145px !important;
     }
     .bi-dashboard {
         width: calc(100% - 30px);
