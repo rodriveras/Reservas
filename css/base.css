@@ -39,6 +39,17 @@ body {
     top: 130px !important;
 }
 
+/* Escalar un poco los controles de mapa en móviles */
+@media (max-width: 600px) {
+    .leaflet-top {
+        top: 155px !important;
+    }
+    .leaflet-control-zoom, .leaflet-control-layers {
+        transform: scale(0.85);
+        transform-origin: top right;
+    }
+}
+
 /* Header UI */
 .main-header {
     position: absolute;
@@ -162,6 +173,8 @@ body {
     bottom: 0;
     left: 50%;
     width: min(100%, 500px);
+    max-height: 90vh;
+    overflow-y: auto;
     background: #111111;
     color: #ffffff;
     z-index: 2000;
@@ -170,6 +183,12 @@ body {
     transform: translate(-50%, 100%);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+}
+
+/* Esconder la barra de scroll en el modal */
+.bottom-sheet::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
 }
 
 .bottom-sheet.active {

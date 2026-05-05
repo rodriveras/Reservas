@@ -25,12 +25,12 @@ const MAP_ENGINE = {
         // Añadir satélite por defecto
         satelite.addTo(this.instance);
 
-        // Control de capas (arriba a la izquierda, desplazado por CSS)
+        // Control de capas (arriba a la derecha, agrupado con zoom)
         L.control.layers({
             "Satélite ESRI": satelite,
             "Google Híbrido": hibrido,
             "OpenStreetMap": osm
-        }, null, { position: 'topleft' }).addTo(this.instance);
+        }, null, { position: 'topright' }).addTo(this.instance);
 
         // Control de zoom (arriba a la derecha, desplazado por CSS)
         L.control.zoom({ position: 'topright' }).addTo(this.instance);

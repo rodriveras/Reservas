@@ -7,9 +7,11 @@ const MAP_ENGINE = {
 
     init() {
         this.instance = L.map('map', { 
-            zoomControl: false,
+            zoomControl: true,
             attributionControl: false 
-        }).setView([-36.915, -71.501], 18); // Coordenadas Cabañas
+        }).setView([-36.915, -71.501], 18);
+
+        this.instance.zoomControl.setPosition('topright');
 
         // Capas Base
         const satelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
