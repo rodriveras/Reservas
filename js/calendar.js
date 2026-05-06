@@ -25,7 +25,7 @@ const CALENDAR = {
         return `
             <div style="background: white; min-height: 100%; max-width: 600px; margin: 0 auto; border-radius: 24px; padding: 15px; padding-bottom: 100px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
-                    <select id="cal-cabin-select" style="padding:10px 0; border:none; background:transparent; color:#222; font-size:18px; font-weight:800; font-family:'Outfit'; outline:none;" onchange="CALENDAR.changeCabin(this.value)">
+                    <select id="cal-cabin-select" style="padding:10px 0; border:none; background:transparent; color:#222; font-size:24px; font-weight:800; font-family:'Outfit'; outline:none;" onchange="CALENDAR.changeCabin(this.value)">
                         ${cabinOptions}
                     </select>
                     <div style="display:flex; gap:8px;">
@@ -34,7 +34,7 @@ const CALENDAR = {
                     </div>
                 </div>
                 
-                <h2 id="cal-month-title" style="font-size:32px; margin-bottom:25px; font-family:'Outfit'; text-transform:lowercase; color:#222;"></h2>
+                <h2 id="cal-month-title" style="font-size:16px; margin-bottom:15px; font-weight:600; text-transform:capitalize; color:#888;"></h2>
                 
                 <div style="display:grid; grid-template-columns:repeat(7,1fr); text-align:center; font-weight:800; font-size:11px; margin-bottom:15px; color:#717171;">
                     <div>D</div><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div>

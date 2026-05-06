@@ -397,7 +397,7 @@ body {
     }
     .desktop-controls {
         display: grid !important;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         grid-template-areas: 
             "date sync"
             "btn1 btn2";
