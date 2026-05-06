@@ -68,6 +68,20 @@ const MAP_ENGINE = {
                 return L.marker(latlng, { icon: cabinIcon });
             },
             onEachFeature: (feature, layer) => {
+                if (feature.properties.nombre) {
+                    let adHocText = feature.properties.nombre.replace("Cabaña ", "");
+                    if (adHocText.toLowerCase().includes("maitén") || adHocText.toLowerCase().includes("maiten")) {
+                        adHocText = "Hualle";
+                        feature.properties.nombre = "Cabaña Hualle";
+                    }
+                    
+                    layer.bindTooltip(adHocText, {
+                        permanent: true,
+                        direction: "bottom",
+                        className: "cabin-tooltip",
+                        offset: [0, 5]
+                    });
+                }
                 // Solo permitir click si está disponible
                 if (feature.properties.estado === 'Verde') {
                     layer.on('click', () => UI.openCabinSheet(feature));

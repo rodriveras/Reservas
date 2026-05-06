@@ -179,8 +179,7 @@ const CALENDAR = {
             email: res.email,
             id_reserva: res.id || res.d_reserva || res.id_reserva
         };
-        
-        UI.openCabinSheet(p);
+        UI.openCabinSheet({ properties: p });
     },
 
     startDraft(dateStr) {

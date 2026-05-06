@@ -24,7 +24,8 @@ const UI = {
         this._animateValue("kpi-ingresos", stats.ingresos || 0, "$ ", true);
     },
 
-    openCabinSheet(p) {
+    openCabinSheet(feature) {
+        const p = feature.properties;
         // Renderizado del bloque de cliente si existe
         // Intento de enriquecer los datos desde memoria si existen
         if (typeof CALENDAR !== 'undefined' && CALENDAR.allData) {
@@ -104,8 +105,8 @@ const UI = {
                 
                 <h2 style="font-family: 'Outfit'; font-size: 28px; font-weight: 700; color: white; margin-bottom: 5px;">${p.nombre}</h2>
                 <div style="display:flex; align-items:center; gap:10px; margin-bottom: 25px;">
-                    <span style="font-size: 20px; font-weight: 700; color: var(--success);">$ ${parseFloat(p.precio).toLocaleString('es-CL')}</span>
-                    <button onclick="UI.editBasePrice('${p.id_cabana}', ${p.precio})" style="background:transparent; border:none; color:#888; cursor:pointer;" title="Cambiar precio base">
+                    <span style="font-size: 20px; font-weight: 700; color: var(--success);">$ ${parseFloat(p.precio_base || p['precio base'] || 0).toLocaleString('es-CL')}</span>
+                    <button onclick="UI.editBasePrice('${p.id}', ${p.precio_base || p['precio base'] || 0})" style="background:transparent; border:none; color:#888; cursor:pointer;" title="Cambiar precio base">
                         <i class="fas fa-edit"></i>
                     </button>
                 </div>
@@ -124,7 +125,11 @@ const UI = {
                 <button onclick="CALENDAR.deleteReservation('${p.id_reserva}')" class="btn-primary" style="background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: var(--error); margin-top: 5px;">
                     <i class="fas fa-trash-alt"></i> Eliminar Reserva
                 </button>
-                ` : ''}
+                ` : `
+                <button onclick="document.getElementById('reserva-modal').classList.add('active'); document.getElementById('bs-overlay').classList.add('active'); document.getElementById('new-res-cabana').innerText = '${p.nombre}'; UI.closeCabinSheet();" class="btn-primary" style="background: var(--success); color: white; margin-top: 5px;">
+                    <i class="fas fa-calendar-plus"></i> Nueva Reserva
+                </button>
+                `}
             </div>
         `;
         
@@ -171,7 +176,7 @@ const UI = {
     },
 
     async editBasePrice(id_cabana, currentPrice) {
-        if (!id_cabana) return;
+        if (!id_cabana || id_cabana === 'undefined') return;
         const newPrice = prompt("Ingresa el nuevo precio base para esta cabaña:", currentPrice);
         if (!newPrice || isNaN(newPrice) || newPrice === currentPrice.toString()) return;
 
