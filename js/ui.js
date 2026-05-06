@@ -24,6 +24,42 @@ const UI = {
         this._animateValue("kpi-ingresos", stats.ingresos || 0, "$ ", true);
     },
 
+    async goToPanorama(id_cabana) {
+        this.closeCabinSheet();
+        
+        const calView = document.getElementById('calendar-view');
+        const mapDiv = document.getElementById('map');
+        const dashboard = document.querySelector('.bi-dashboard');
+        const btn = document.getElementById('btn-toggle-view');
+        
+        // Si el panorama está oculto, lo abrimos y cargamos datos
+        if (calView && (calView.style.display === 'none' || calView.style.display === '')) {
+            if (mapDiv) mapDiv.style.display = 'none';
+            if (dashboard) dashboard.style.display = 'none';
+            calView.style.display = 'block';
+            if (btn) btn.innerHTML = '<i class="fas fa-map"></i> Mapa';
+            
+            this.showLoading(true);
+            try {
+                const allData = await API.getAllData();
+                if (typeof CALENDAR !== 'undefined') {
+                    CALENDAR.currentCabinId = id_cabana;
+                    CALENDAR.render(allData);
+                }
+                this.showLoading(false);
+            } catch (e) {
+                this.showLoading(false);
+                document.getElementById('calendar-content').innerHTML = `<p style="color:red; text-align:center;">Error cargando panorama:<br>${e.message}</p>`;
+            }
+        } else {
+            // Si el panorama ya estaba abierto, solo actualizamos la cabaña seleccionada
+            if (typeof CALENDAR !== 'undefined' && CALENDAR.allData) {
+                CALENDAR.currentCabinId = id_cabana;
+                CALENDAR.render(CALENDAR.allData);
+            }
+        }
+    },
+
     openCabinSheet(feature) {
         const p = feature.properties;
         // Renderizado del bloque de cliente si existe
@@ -131,8 +167,8 @@ const UI = {
                     </button>
                 </div>
                 ` : `
-                <button onclick="document.getElementById('reserva-modal').classList.add('active'); document.getElementById('bs-overlay').classList.add('active'); document.getElementById('new-res-cabana').innerText = '${p.nombre}'; UI.closeCabinSheet();" class="btn-primary" style="background: var(--success); color: white; margin-top: 5px;">
-                    <i class="fas fa-calendar-plus"></i> Nueva Reserva
+                <button onclick="UI.goToPanorama('${p.id_cabana || p.id}')" class="btn-primary" style="background: var(--success); color: white; margin-top: 5px;">
+                    <i class="fas fa-calendar-alt"></i> Ir al Calendario
                 </button>
                 `}
             </div>
