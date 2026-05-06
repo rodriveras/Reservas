@@ -201,6 +201,7 @@ const CALENDAR = {
     },
 
     startDraft(dateStr) {
+        this.editingReservationId = null;
         // 🌟 MAGIA: Al tocar un día vacío, cambiamos la fecha global y recalculamos KPIs
         const filter = document.getElementById('master-date-filter');
         if(filter && typeof APP !== 'undefined' && APP.recalcKPIs) {
@@ -231,6 +232,41 @@ const CALENDAR = {
         // Cerrar todos los acordeones por defecto
         document.querySelectorAll('.dark-accordion-content').forEach(el => el.classList.remove('open'));
         
+        document.getElementById('reserva-modal').classList.add('active');
+        document.getElementById('bs-overlay').classList.add('active');
+    },
+
+    editReservation(id_reserva) {
+        const res = this.allData.reservas.find(r => (r.id || r.d_reserva || r.id_reserva) === id_reserva);
+        if (!res) return;
+        const cabin = this.allData.cabanas.find(c => c.id == res.id_cabana);
+        
+        this.currentCabinId = cabin.id;
+        document.getElementById('new-res-cabana').innerText = cabin.nombre;
+        document.getElementById('new-res-in').value = res.fecha_entrada.split('T')[0];
+        document.getElementById('new-res-out').value = res.fecha_salida.split('T')[0];
+        document.getElementById('new-res-cliente').value = res.cliente || '';
+        
+        document.getElementById('new-res-pax').value = res.pasajeros || '2';
+        document.getElementById('new-res-mascota').checked = (res.mascota && res.mascota.toLowerCase() === 'sí');
+        document.getElementById('new-res-tina').checked = (res.tina && res.tina.toLowerCase() === 'sí');
+        if (document.getElementById('new-res-tina').checked) {
+            document.getElementById('tina-price-container').style.display = 'block';
+            document.getElementById('new-res-tina-precio').value = res.valor_tina || res.Valor_tina || '';
+        } else {
+            document.getElementById('tina-price-container').style.display = 'none';
+        }
+        document.getElementById('new-res-abono').value = res.abono || '';
+        document.getElementById('new-res-comentarios').value = res.comentarios || '';
+        document.getElementById('new-res-cel').value = res.celular || '';
+        document.getElementById('new-res-rrss').value = res.rrss || '';
+        document.getElementById('new-res-email').value = res.email || '';
+        document.getElementById('new-res-precio').value = res.precios_dinamicos || cabin.precio_base;
+        
+        this.editingReservationId = id_reserva;
+        
+        document.querySelectorAll('.dark-accordion-content').forEach(el => el.classList.remove('open'));
+        UI.closeCabinSheet();
         document.getElementById('reserva-modal').classList.add('active');
         document.getElementById('bs-overlay').classList.add('active');
     },
@@ -267,6 +303,11 @@ const CALENDAR = {
         btn.disabled = true;
 
         try {
+            if (this.editingReservationId) {
+                await API.deleteReservation(this.editingReservationId);
+                this.allData.reservas = this.allData.reservas.filter(r => (r.id || r.d_reserva || r.id_reserva) !== this.editingReservationId);
+            }
+
             const resData = await API.createReservation({
                 id_cabana: this.currentCabinId,
                 fecha_entrada: checkin,
@@ -304,6 +345,8 @@ const CALENDAR = {
                     precios_dinamicos: precios_dinamicos
                 });
             }
+            
+            this.editingReservationId = null;
             
             // Cerrar modal
             document.getElementById('reserva-modal').classList.remove('active');

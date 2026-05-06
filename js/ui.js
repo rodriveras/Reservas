@@ -67,7 +67,7 @@ const UI = {
                 
                 ${(p.pasajeros || checkMascota || checkTina) ? `
                 <div style="display:flex; flex-wrap:wrap; gap:8px; border-top: 1px solid #333; padding-top: 15px;">
-                    ${p.pasajeros ? `<span style="background:#2a2a2c; border: 1px solid #444; color:#ddd; padding:6px 12px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px;"><i class="fas fa-users" style="color:#888;"></i> ${p.pasajeros} Pax</span>` : ''}
+                    ${p.pasajeros ? `<span style="background:#2a2a2c; border: 1px solid #444; color:#ddd; padding:6px 12px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px;"><i class="fas fa-users" style="color:#888;"></i> ${p.pasajeros} per</span>` : ''}
                     ${checkMascota ? `<span style="background:#2a2a2c; border: 1px solid #444; color:#ddd; padding:6px 12px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px;"><i class="fas fa-paw" style="color:#888;"></i> Mascota</span>` : ''}
                     ${checkTina ? `<span style="background:#2a2a2c; border: 1px solid #444; color:#ddd; padding:6px 12px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px;"><i class="fas fa-hot-tub" style="color:var(--primary);"></i> Tina ${p.valor_tina ? `($${parseFloat(p.valor_tina).toLocaleString('es-CL')})` : ''}</span>` : ''}
                 </div>
@@ -122,9 +122,14 @@ const UI = {
                 </div>
                 
                 ${p.id_reserva ? `
-                <button onclick="CALENDAR.deleteReservation('${p.id_reserva}')" class="btn-primary" style="background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: var(--error); margin-top: 5px;">
-                    <i class="fas fa-trash-alt"></i> Eliminar Reserva
-                </button>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                    <button onclick="CALENDAR.editReservation('${p.id_reserva}')" class="btn-primary" style="background: #2a2a2c; border: 1px solid #444; color: white;">
+                        <i class="fas fa-edit" style="color: var(--primary);"></i> Editar
+                    </button>
+                    <button onclick="CALENDAR.deleteReservation('${p.id_reserva}')" class="btn-primary" style="background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: var(--error);">
+                        <i class="fas fa-trash-alt"></i> Eliminar
+                    </button>
+                </div>
                 ` : `
                 <button onclick="document.getElementById('reserva-modal').classList.add('active'); document.getElementById('bs-overlay').classList.add('active'); document.getElementById('new-res-cabana').innerText = '${p.nombre}'; UI.closeCabinSheet();" class="btn-primary" style="background: var(--success); color: white; margin-top: 5px;">
                     <i class="fas fa-calendar-plus"></i> Nueva Reserva
