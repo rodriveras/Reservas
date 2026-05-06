@@ -18,16 +18,6 @@
             <h1>Refugio <span>Montaña</span></h1>
         </div>
         <div class="controls" style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
-            <div style="display: flex; gap: 10px; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 12px;">
-                <div style="display: flex; flex-direction: column;">
-                    <label style="font-size: 9px; color: var(--text-dim); margin-left: 5px; font-weight: 700;">LLEGADA</label>
-                    <input type="date" id="client-checkin" class="date-input" style="border: none; background: transparent; padding: 4px 8px;">
-                </div>
-                <div style="display: flex; flex-direction: column; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 10px;">
-                    <label style="font-size: 9px; color: var(--text-dim); margin-left: 5px; font-weight: 700;">SALIDA</label>
-                    <input type="date" id="client-checkout" class="date-input" style="border: none; background: transparent; padding: 4px 8px;">
-                </div>
-            </div>
             <div id="sync-status" class="status-pill" style="margin-top: 0;"><i class="fas fa-sync fa-spin"></i> Buscando...</div>
         </div>
     </header>
@@ -35,11 +25,11 @@
     <!-- El Mapa -->
     <div id="map"></div>
 
-    <!-- Instrucción Flotante inferior (reemplaza al BI dashboard) -->
-    <section class="client-instructions">
-        <div class="instruction-card">
-            <i class="fas fa-leaf" style="color: var(--primary); font-size: 24px; margin-bottom: 10px;"></i>
-            <p style="font-size: 13px; font-weight: 600;">Selecciona tus fechas arriba para ver la disponibilidad en nuestro entorno natural. Toca una cabaña en <span style="color:var(--success)">Verde</span> para más información.</p>
+    <!-- Instrucción Flotante inferior -->
+    <section class="client-instructions" style="bottom: 20px; width: auto; min-width: 280px; pointer-events: none;">
+        <div class="instruction-card" style="padding: 12px 24px; border-radius: 30px; display: flex; align-items: center; justify-content: center; gap: 10px; pointer-events: auto;">
+            <i class="fas fa-hand-pointer" style="color: var(--primary); font-size: 18px; margin: 0;"></i>
+            <p style="font-size: 12px; font-weight: 600; margin: 0;">Toca una cabaña para ver detalles y fechas</p>
         </div>
     </section>
 

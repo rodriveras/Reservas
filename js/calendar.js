@@ -96,7 +96,12 @@ const CALENDAR = {
             if (activeRes) {
                 isStart = dateStr === activeRes.fecha_entrada.split('T')[0];
                 isEnd = dateStr === activeRes.fecha_salida.split('T')[0];
-                clientName = activeRes.cliente ? activeRes.cliente.split(' ')[0] : 'Reservado';
+                
+                if (typeof window !== 'undefined' && window.IS_CLIENT_MODE) {
+                    clientName = 'Reservado';
+                } else {
+                    clientName = activeRes.cliente ? activeRes.cliente.split(' ')[0] : 'Reservado';
+                }
                 
                 let rad = '0';
                 if (isStart && isEnd) rad = '12px';
@@ -116,13 +121,26 @@ const CALENDAR = {
             }
             
             let isMiddle = activeRes && !isStart && !isEnd;
-            let onClick = activeRes ? `onclick="CALENDAR.openDetails('${activeRes.fecha_entrada.split('T')[0]}')"` : `onclick="CALENDAR.startDraft('${dateStr}')"`;
+            let onClick = '';
+            
+            if (typeof window === 'undefined' || !window.IS_CLIENT_MODE) {
+                onClick = activeRes ? `onclick="CALENDAR.openDetails('${activeRes.fecha_entrada.split('T')[0]}')"` : `onclick="CALENDAR.startDraft('${dateStr}')"`;
+            }
+            
+            let iconOrText = '';
+            if (activeRes && isStart) {
+                if (typeof window !== 'undefined' && window.IS_CLIENT_MODE) {
+                    iconOrText = `<div style="font-size:9px; font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%; text-align:center; color:white;"><i class="fas fa-lock"></i> ${clientName}</div>`;
+                } else {
+                    iconOrText = `<div style="font-size:9px; font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%; text-align:center; color:white;"><i class="fas fa-user"></i> ${clientName}</div>`;
+                }
+            }
             
             gridHtml += `
-                <div style="aspect-ratio: 1/1.2; display:flex; flex-direction:column; justify-content:space-between; align-items:center; padding:6px 2px; cursor:pointer; transition:0.2s; ${cellStyle}" ${onClick} onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <div style="aspect-ratio: 1/1.2; display:flex; flex-direction:column; justify-content:space-between; align-items:center; padding:6px 2px; ${onClick ? 'cursor:pointer;' : ''} transition:0.2s; ${cellStyle}" ${onClick} ${onClick ? 'onmouseover="this.style.transform=\'scale(1.05)\'" onmouseout="this.style.transform=\'scale(1)\'"' : ''}>
                     <span style="${isMiddle ? 'opacity:0.5;' : 'font-weight:900;'} font-size:13px;">${isEnd && activeRes ? '<i class="fas fa-sign-out-alt"></i>' : d}</span>
                     
-                    ${activeRes && isStart ? `<div style="font-size:9px; font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%; text-align:center; color:white;"><i class="fas fa-user"></i> ${clientName}</div>` : ''}
+                    ${iconOrText}
                     
                     ${!activeRes ? `<span style="font-size:9px; font-weight:700; color:#717171;">$${Math.round(dayPrice/1000)}k</span>` : ''}
                 </div>

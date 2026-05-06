@@ -50,14 +50,13 @@ const MAP_ENGINE = {
                 const isAvailable = estado === 'Verde';
                 
                 // Color para clientes: Verde brillante si disponible, si no, un gris oscuro semi-transparente
-                const color = isAvailable ? CONFIG.COLORS.Verde : 'rgba(161, 176, 166, 0.4)';
-                const opacity = isAvailable ? 1 : 0.6;
-                const pointerEvents = isAvailable ? 'auto' : 'none';
+                const color = isAvailable ? CONFIG.COLORS.Verde : '#888888';
+                const opacity = isAvailable ? 1 : 0.7;
 
                 const cabinIcon = L.divIcon({
                     className: 'cabin-marker-container',
                     html: `
-                        <div class="cabin-pin" style="background-color: ${color}; opacity: ${opacity}; pointer-events: ${pointerEvents}">
+                        <div class="cabin-pin" style="background-color: ${color}; opacity: ${opacity}; pointer-events: auto;">
                             <i class="fas fa-house-chimney"></i>
                         </div>
                     `,
@@ -82,10 +81,7 @@ const MAP_ENGINE = {
                         offset: [0, 5]
                     });
                 }
-                // Solo permitir click si está disponible
-                if (feature.properties.estado === 'Verde') {
-                    layer.on('click', () => UI.openCabinSheet(feature));
-                }
+                layer.on('click', () => UI.openCabinSheet(feature));
             }
         });
 

@@ -29,6 +29,9 @@ const APP = {
         UI.showLoading(true);
         
         try {
+            if (!this.allData) {
+                this.allData = await API.getAllData();
+            }
             const data = await API.getStatusByDate(date);
             MAP_ENGINE.renderPoints(data.features);
             UI.showLoading(false);
