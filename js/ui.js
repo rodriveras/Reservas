@@ -37,7 +37,10 @@ const UI = {
             if (mapDiv) mapDiv.style.display = 'none';
             if (dashboard) dashboard.style.display = 'none';
             calView.style.display = 'block';
-            if (btn) btn.innerHTML = '<i class="fas fa-map"></i> Mapa';
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-map"></i>';
+                btn.title = 'Mapa';
+            }
             
             this.showLoading(true);
             try {
@@ -167,9 +170,11 @@ const UI = {
                     </button>
                 </div>
                 ` : `
-                <button onclick="UI.goToPanorama('${p.id_cabana || p.id}')" class="btn-primary" style="background: var(--success); color: white; margin-top: 5px;">
-                    <i class="fas fa-calendar-alt"></i> Ir al Calendario
-                </button>
+                <div style="display: flex; justify-content: center; margin-top: 10px;">
+                    <button onclick="UI.goToPanorama('${p.id_cabana || p.id}')" class="btn-primary" style="background: var(--success); color: white; width: 48px; height: 48px; border-radius: 14px; padding: 0;" title="Ir al Calendario">
+                        <i class="fas fa-calendar-alt" style="font-size: 20px;"></i>
+                    </button>
+                </div>
                 `}
             </div>
         `;
@@ -189,9 +194,11 @@ const UI = {
 
     showLoading(show) {
         const pill = document.getElementById('sync-status');
-        pill.innerHTML = show ? 
-            '<i class="fas fa-sync fa-spin"></i> Sincronizando...' : 
-            '<i class="fas fa-check-circle" style="color:var(--success)"></i> Actualizado';
+        if(pill) {
+            pill.innerHTML = show ? 
+                '<i class="fas fa-sync fa-spin"></i>' : 
+                '<i class="fas fa-circle" style="color:var(--success); font-size: 8px; filter: drop-shadow(0 0 4px var(--success));"></i>';
+        }
     },
 
     _animateValue(id, end, prefix = "", isMoney = false) {

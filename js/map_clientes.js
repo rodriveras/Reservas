@@ -76,9 +76,9 @@ const MAP_ENGINE = {
                     
                     layer.bindTooltip(adHocText, {
                         permanent: true,
-                        direction: "bottom",
+                        direction: "top",
                         className: "cabin-tooltip",
-                        offset: [0, 5]
+                        offset: [0, -42]
                     });
                 }
                 layer.on('click', () => UI.openCabinSheet(feature));

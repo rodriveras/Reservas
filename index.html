@@ -22,14 +22,13 @@
             <h1>GeoGestión <span>Cabañas</span></h1>
         </div>
         <div class="controls desktop-controls">
-            <input type="date" id="master-date-filter" class="date-input">
-            <button id="btn-toggle-view" class="btn-primary" style="padding: 8px 5px; margin: 0; font-size: 13px; height: 44px; white-space: nowrap;" onclick="APP.toggleView()">
-                <i class="fas fa-calendar-alt"></i> Panorama
+            <button id="btn-toggle-view" class="btn-primary" style="padding: 8px; margin: 0; font-size: 16px; height: 44px; width: 44px; min-width: 44px;" onclick="APP.toggleView()" title="Panorama">
+                <i class="fas fa-calendar-alt"></i>
             </button>
-            <button class="btn-primary" style="padding: 8px 5px; margin: 0; font-size: 13px; background: var(--success); height: 44px; white-space: nowrap;" onclick="APP.copyClientLink()">
-                <i class="fas fa-link"></i> Compartir
+            <button class="btn-primary" style="padding: 8px; margin: 0; font-size: 16px; background: var(--success); height: 44px; width: 44px; min-width: 44px;" onclick="APP.copyClientLink()" title="Compartir">
+                <i class="fas fa-link"></i>
             </button>
-            <div id="sync-status" class="status-pill" style="margin-top: 0;"><i class="fas fa-sync fa-spin"></i> Buscando...</div>
+            <div id="sync-status" class="status-pill" style="margin-top: 0;"><i class="fas fa-sync fa-spin"></i></div>
         </div>
     </header>
 

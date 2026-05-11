@@ -11,7 +11,8 @@ const APP = {
 
         // 2. Cargar fecha de hoy
         const hoy = new Date().toISOString().split('T')[0];
-        document.getElementById('master-date-filter').value = hoy;
+        const dateInput = document.getElementById('master-date-filter');
+        if (dateInput) dateInput.value = hoy;
 
         // 3. Primera sincronización
         await this.updateData(hoy);
@@ -86,7 +87,8 @@ const APP = {
             mapDiv.style.display = 'none';
             dashboard.style.display = 'none';
             calDiv.style.display = 'block';
-            btn.innerHTML = '<i class="fas fa-map"></i> Mapa';
+            btn.innerHTML = '<i class="fas fa-map"></i>';
+            btn.title = 'Mapa';
             
             // Cargar datos
             UI.showLoading(true);
@@ -105,7 +107,8 @@ const APP = {
             calDiv.style.display = 'none';
             mapDiv.style.display = 'block';
             dashboard.style.display = 'flex';
-            btn.innerHTML = '<i class="fas fa-calendar-alt"></i> Panorama';
+            btn.innerHTML = '<i class="fas fa-calendar-alt"></i>';
+            btn.title = 'Panorama';
             
             // Refrescar mapa si es necesario
             MAP_ENGINE.instance.invalidateSize();

@@ -34,19 +34,45 @@ body {
     z-index: 1;
 }
 
-/* Evitar que los controles del mapa se escondan tras el header */
-.leaflet-top {
-    top: 130px !important;
+/* Estilización de controles de mapa */
+.leaflet-control-zoom, .leaflet-control-layers {
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
+    border-radius: 12px !important;
+    overflow: hidden;
 }
 
-/* Escalar un poco los controles de mapa en móviles */
+.leaflet-control-zoom a, .leaflet-control-layers-toggle {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--text-main) !important;
+    border: none !important;
+}
+
+/* Evitar que los controles del mapa se escondan tras el header */
+.leaflet-top {
+    top: 90px !important;
+}
+
+/* Optimización para móviles */
 @media (max-width: 600px) {
     .leaflet-top {
-        top: 155px !important;
+        top: 130px !important;
     }
+    
     .leaflet-control-zoom, .leaflet-control-layers {
-        transform: scale(0.85);
+        transform: scale(1.15); /* Más grandes para facilidad de toque */
         transform-origin: top right;
+        margin-right: 15px !important;
+    }
+
+    .leaflet-control-layers-expanded {
+        padding: 10px !important;
+        font-size: 14px !important;
+        border-radius: 16px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(10px);
     }
 }
 
@@ -374,7 +400,6 @@ body {
     font-weight: 800 !important;
     font-size: 11px !important;
     padding: 0 !important;
-    margin-top: 5px;
     text-shadow: 0 2px 4px rgba(255,255,255,0.9), 0 -1px 2px rgba(255,255,255,0.9), 1px 0 2px rgba(255,255,255,0.9), -1px 0 2px rgba(255,255,255,0.9) !important;
     text-transform: uppercase;
     letter-spacing: 0.5px;
